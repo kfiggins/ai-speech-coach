@@ -151,8 +151,7 @@ class StatsService {
 
     /// Load stop words from JSON file
     private func loadStopWords() {
-        // Use Bundle.module for SPM
-        let bundle = Bundle.module
+        let bundle = Bundle.main
 
         guard let url = bundle.url(forResource: "stop-words", withExtension: "json"),
               let data = try? Data(contentsOf: url),
@@ -166,8 +165,7 @@ class StatsService {
 
     /// Load filler words from JSON file
     private func loadFillerWords() {
-        // Use Bundle.module for SPM
-        let bundle = Bundle.module
+        let bundle = Bundle.main
 
         guard let url = bundle.url(forResource: "filler-words", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {

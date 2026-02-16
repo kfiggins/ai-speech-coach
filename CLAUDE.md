@@ -75,4 +75,5 @@ ai-speech-coach/
 ✅ Phase 3: Complete (2026-02-16)
 ✅ Phase 4: Complete (2026-02-16)
 ✅ Phase 5: Complete (2026-02-16)
-➡️ Phase 6: Results UI & Session History (see docs/PHASE_6_UI.md)
+✅ Phase 6: Complete (2026-02-16)
+➡️ Phase 7: Export Functionality (see docs/PHASE_7_EXPORT.md)

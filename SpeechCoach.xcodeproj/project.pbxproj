@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA0000010000000000000001 /* SpeechCoachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000001 /* SpeechCoachApp.swift */; };
+		AA0000010000000000000002 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000002 /* MainView.swift */; };
+		AA0000010000000000000003 /* SessionResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000003 /* SessionResultsView.swift */; };
+		AA0000010000000000000004 /* RecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000004 /* RecordingViewModel.swift */; };
+		AA0000010000000000000005 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000005 /* Session.swift */; };
+		AA0000010000000000000006 /* SessionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000006 /* SessionStatus.swift */; };
+		AA0000010000000000000007 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000007 /* PermissionManager.swift */; };
+		AA0000010000000000000008 /* RecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000008 /* RecordingService.swift */; };
+		AA0000010000000000000009 /* TranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000009 /* TranscriptionService.swift */; };
+		AA0000010000000000000010 /* StatsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000010 /* StatsService.swift */; };
+		AA0000010000000000000011 /* stop-words.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000011 /* stop-words.json */; };
+		AA0000010000000000000012 /* filler-words.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000012 /* filler-words.json */; };
+		AA0000010000000000000016 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000016 /* SessionStore.swift */; };
+		AA0000010000000000000017 /* FileManager+Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000017 /* FileManager+Sessions.swift */; };
+		AA0000010000000000000018 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000018 /* SessionListViewModel.swift */; };
+		AA0000010000000000000019 /* SessionResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000019 /* SessionResultsViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CC0000010000000000000001 /* SpeechCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeechCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB0000010000000000000001 /* SpeechCoachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCoachApp.swift; sourceTree = "<group>"; };
+		BB0000010000000000000002 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		BB0000010000000000000003 /* SessionResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultsView.swift; sourceTree = "<group>"; };
+		BB0000010000000000000004 /* RecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewModel.swift; sourceTree = "<group>"; };
+		BB0000010000000000000005 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		BB0000010000000000000006 /* SessionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStatus.swift; sourceTree = "<group>"; };
+		BB0000010000000000000007 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		BB0000010000000000000008 /* RecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingService.swift; sourceTree = "<group>"; };
+		BB0000010000000000000009 /* TranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionService.swift; sourceTree = "<group>"; };
+		BB0000010000000000000010 /* StatsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsService.swift; sourceTree = "<group>"; };
+		BB0000010000000000000011 /* stop-words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stop-words.json"; sourceTree = "<group>"; };
+		BB0000010000000000000012 /* filler-words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "filler-words.json"; sourceTree = "<group>"; };
+		BB0000010000000000000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB0000010000000000000014 /* SpeechCoach.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SpeechCoach.entitlements; sourceTree = "<group>"; };
+		BB0000010000000000000016 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		BB0000010000000000000017 /* FileManager+Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Sessions.swift"; sourceTree = "<group>"; };
+		BB0000010000000000000018 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
+		BB0000010000000000000019 /* SessionResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultsViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD0000010000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EE0000010000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				EE0000010000000000000002 /* SpeechCoach */,
+				EE0000010000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EE0000010000000000000002 /* SpeechCoach */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000010000000000000013 /* Info.plist */,
+				BB0000010000000000000014 /* SpeechCoach.entitlements */,
+				BB0000010000000000000001 /* SpeechCoachApp.swift */,
+				EE0000010000000000000004 /* Views */,
+				EE0000010000000000000005 /* ViewModels */,
+				EE0000010000000000000006 /* Models */,
+				EE0000010000000000000007 /* Services */,
+				EE0000010000000000000008 /* Resources */,
+			);
+			path = SpeechCoach;
+			sourceTree = "<group>";
+		};
+		EE0000010000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CC0000010000000000000001 /* SpeechCoach.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE0000010000000000000004 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000010000000000000002 /* MainView.swift */,
+				BB0000010000000000000003 /* SessionResultsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EE0000010000000000000005 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000010000000000000004 /* RecordingViewModel.swift */,
+				BB0000010000000000000018 /* SessionListViewModel.swift */,
+				BB0000010000000000000019 /* SessionResultsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		EE0000010000000000000006 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000010000000000000005 /* Session.swift */,
+				BB0000010000000000000006 /* SessionStatus.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EE0000010000000000000007 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000010000000000000007 /* PermissionManager.swift */,
+				BB0000010000000000000008 /* RecordingService.swift */,
+				BB0000010000000000000009 /* TranscriptionService.swift */,
+				BB0000010000000000000010 /* StatsService.swift */,
+				BB0000010000000000000016 /* SessionStore.swift */,
+				BB0000010000000000000017 /* FileManager+Sessions.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EE0000010000000000000008 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BB0000010000000000000011 /* stop-words.json */,
+				BB0000010000000000000012 /* filler-words.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FF0000010000000000000001 /* SpeechCoach */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF0000010000000000000002 /* Build configuration list for PBXNativeTarget "SpeechCoach" */;
+			buildPhases = (
+				DD0000010000000000000002 /* Sources */,
+				DD0000010000000000000001 /* Frameworks */,
+				DD0000010000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpeechCoach;
+			productName = SpeechCoach;
+			productReference = CC0000010000000000000001 /* SpeechCoach.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		GG0000010000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					FF0000010000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = GG0000010000000000000002 /* Build configuration list for PBXProject "SpeechCoach" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EE0000010000000000000001;
+			productRefGroup = EE0000010000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FF0000010000000000000001 /* SpeechCoach */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD0000010000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000010000000000000011 /* stop-words.json in Resources */,
+				AA0000010000000000000012 /* filler-words.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD0000010000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000010000000000000001 /* SpeechCoachApp.swift in Sources */,
+				AA0000010000000000000002 /* MainView.swift in Sources */,
+				AA0000010000000000000003 /* SessionResultsView.swift in Sources */,
+				AA0000010000000000000004 /* RecordingViewModel.swift in Sources */,
+				AA0000010000000000000005 /* Session.swift in Sources */,
+				AA0000010000000000000006 /* SessionStatus.swift in Sources */,
+				AA0000010000000000000007 /* PermissionManager.swift in Sources */,
+				AA0000010000000000000008 /* RecordingService.swift in Sources */,
+				AA0000010000000000000009 /* TranscriptionService.swift in Sources */,
+				AA0000010000000000000010 /* StatsService.swift in Sources */,
+				AA0000010000000000000016 /* SessionStore.swift in Sources */,
+				AA0000010000000000000017 /* FileManager+Sessions.swift in Sources */,
+				AA0000010000000000000018 /* SessionListViewModel.swift in Sources */,
+				AA0000010000000000000019 /* SessionResultsViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		HH0000010000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		HH0000010000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		HH0000010000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SpeechCoach/SpeechCoach.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SpeechCoach/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Speech Coach";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.speechcoach.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		HH0000010000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SpeechCoach/SpeechCoach.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SpeechCoach/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Speech Coach";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.speechcoach.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		GG0000010000000000000002 /* Build configuration list for PBXProject "SpeechCoach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				HH0000010000000000000001 /* Debug */,
+				HH0000010000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF0000010000000000000002 /* Build configuration list for PBXNativeTarget "SpeechCoach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				HH0000010000000000000003 /* Debug */,
+				HH0000010000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = GG0000010000000000000001 /* Project object */;
+}

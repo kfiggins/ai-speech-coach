@@ -9,7 +9,15 @@ import SwiftUI
 
 struct SessionResultsView: View {
     let session: Session
+    let sessionStore: SessionStore
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var viewModel: SessionResultsViewModel
+
+    init(session: Session, sessionStore: SessionStore = MainView.sharedSessionStore) {
+        self.session = session
+        self.sessionStore = sessionStore
+        _viewModel = StateObject(wrappedValue: SessionResultsViewModel(session: session, sessionStore: sessionStore))
+    }
 
     var body: some View {
         ScrollView {
@@ -99,7 +107,7 @@ struct SessionResultsView: View {
                 }
 
                 // Delete button
-                Button(role: .destructive, action: { /* Delete session - Phase 5 */ }) {
+                Button(role: .destructive, action: { viewModel.confirmDelete() }) {
                     Label("Delete Session", systemImage: "trash")
                 }
                 .buttonStyle(.bordered)
@@ -109,6 +117,24 @@ struct SessionResultsView: View {
             .padding()
         }
         .frame(width: 700, height: 600)
+        .alert("Delete Session", isPresented: $viewModel.showingDeleteConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                viewModel.deleteSession()
+                dismiss()
+            }
+        } message: {
+            Text("Are you sure you want to delete this session? This action cannot be undone.")
+        }
+        .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
+            Button("OK", role: .cancel) {
+                viewModel.errorMessage = nil
+            }
+        } message: {
+            if let error = viewModel.errorMessage {
+                Text(error)
+            }
+        }
     }
 }
 
@@ -118,17 +144,82 @@ struct StatsGridView: View {
     let stats: SessionStats
 
     var body: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ], spacing: 16) {
-            StatCardView(title: "Total Words", value: "\(stats.totalWords)", icon: "text.alignleft")
-            StatCardView(title: "Unique Words", value: "\(stats.uniqueWords)", icon: "character.book.closed")
-            StatCardView(title: "Filler Words", value: "\(stats.fillerWordCount)", icon: "exclamationmark.triangle")
+        VStack(alignment: .leading, spacing: 20) {
+            // Quick stats cards
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: 16) {
+                StatCardView(title: "Total Words", value: "\(stats.totalWords)", icon: "text.alignleft")
+                StatCardView(title: "Unique Words", value: "\(stats.uniqueWords)", icon: "character.book.closed")
+                StatCardView(title: "Filler Words", value: "\(stats.fillerWordCount)", icon: "exclamationmark.triangle")
 
-            if let wpm = stats.wordsPerMinute {
-                StatCardView(title: "Words/Min", value: String(format: "%.0f", wpm), icon: "speedometer")
+                if let wpm = stats.wordsPerMinute {
+                    StatCardView(title: "Words/Min", value: String(format: "%.0f", wpm), icon: "speedometer")
+                }
+            }
+
+            // Filler words breakdown
+            if !stats.fillerWordBreakdown.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Filler Words Breakdown")
+                        .font(.headline)
+
+                    VStack(spacing: 8) {
+                        ForEach(stats.fillerWordBreakdown.sorted(by: { $0.value > $1.value }), id: \.key) { word, count in
+                            HStack {
+                                Text(word)
+                                    .font(.body)
+                                    .foregroundColor(.secondary)
+
+                                Spacer()
+
+                                Text("\(count)")
+                                    .font(.body)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.orange)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color.orange.opacity(0.1))
+                            .cornerRadius(8)
+                        }
+                    }
+                }
+            }
+
+            // Top words list
+            if !stats.topWords.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Most Used Words")
+                        .font(.headline)
+
+                    VStack(spacing: 8) {
+                        ForEach(Array(stats.topWords.prefix(10).enumerated()), id: \.element.word) { index, wordCount in
+                            HStack {
+                                Text("\(index + 1).")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .frame(width: 24, alignment: .leading)
+
+                                Text(wordCount.word)
+                                    .font(.body)
+
+                                Spacer()
+
+                                Text("\(wordCount.count)")
+                                    .font(.body)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.blue)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color.blue.opacity(0.05))
+                            .cornerRadius(8)
+                        }
+                    }
+                }
             }
         }
     }

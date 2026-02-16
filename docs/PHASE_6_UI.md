@@ -1,7 +1,7 @@
 # Phase 6: Results UI & Session History
 
 ## Status
-⚪ Pending (blocked by Phase 5)
+✅ Complete (2026-02-16)
 
 ## Objectives
 - Build SessionResultsView with transcript and stats display
@@ -122,7 +122,7 @@
 - Consider dark mode support
 
 ## Completion
-- [ ] Implementation complete
-- [ ] Tests written and passing
-- [ ] Code committed to git
-- [ ] Ready for Phase 7
+- [x] Implementation complete
+- [x] Tests written and passing
+- [x] Code committed to git
+- [x] Ready for Phase 7

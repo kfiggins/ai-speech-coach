@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import Combine
 
 /// Service responsible for audio recording using AVAudioRecorder
 class RecordingService: NSObject, ObservableObject {
@@ -111,11 +112,17 @@ class RecordingService: NSObject, ObservableObject {
             throw RecordingError.noActiveSession
         }
 
+        // Calculate duration before stopping
+        let duration = recordingDuration
+
         // Stop recording
         recorder.stop()
 
-        // Calculate duration
-        let duration = recordingDuration
+        // Stop the timer
+        stopDurationTimer()
+
+        // Wait for file to finish writing
+        try await Task.sleep(nanoseconds: 1_000_000_000) // 1.0 seconds
 
         // Update state
         await MainActor.run {
@@ -123,8 +130,23 @@ class RecordingService: NSObject, ObservableObject {
             self.recordingDuration = 0
         }
 
+        // Debug logging
+        print("Recording stopped. Expected file at: \(session.audioFileURL.path)")
+        print("File exists: \(FileManager.default.fileExists(atPath: session.audioFileURL.path))")
+        print("Duration: \(duration) seconds")
+        if let attrs = try? FileManager.default.attributesOfItem(atPath: session.audioFileURL.path),
+           let size = attrs[.size] as? Int64 {
+            print("File size: \(size) bytes")
+        }
+
         // Validate recording
-        try validateRecording(at: session.audioFileURL, duration: duration)
+        do {
+            try validateRecording(at: session.audioFileURL, duration: duration)
+            print("Validation passed!")
+        } catch {
+            print("Validation failed with error: \(error)")
+            throw error
+        }
 
         // Update session with duration
         var updatedSession = session
@@ -143,7 +165,7 @@ class RecordingService: NSObject, ObservableObject {
     private func createDirectoryIfNeeded(at url: URL) throws {
         let fileManager = FileManager.default
 
-        if !fileManager.fileExists(atPath: url.path()) {
+        if !fileManager.fileExists(atPath: url.path) {
             do {
                 try fileManager.createDirectory(
                     at: url,
@@ -160,7 +182,7 @@ class RecordingService: NSObject, ObservableObject {
         let fileManager = FileManager.default
 
         // Check file exists
-        guard fileManager.fileExists(atPath: url.path()) else {
+        guard fileManager.fileExists(atPath: url.path) else {
             throw RecordingError.audioFileNotFound
         }
 
@@ -170,7 +192,7 @@ class RecordingService: NSObject, ObservableObject {
         }
 
         // Optionally check file size
-        if let attributes = try? fileManager.attributesOfItem(atPath: url.path()),
+        if let attributes = try? fileManager.attributesOfItem(atPath: url.path),
            let fileSize = attributes[.size] as? Int64,
            fileSize == 0 {
             throw RecordingError.audioFileNotFound
@@ -179,30 +201,28 @@ class RecordingService: NSObject, ObservableObject {
 
     // MARK: - Duration Timer
 
-    private var durationTimer: Timer?
+    private var durationTask: Task<Void, Never>?
 
     private func startDurationTimer() {
-        durationTimer?.invalidate()
+        durationTask?.cancel()
 
-        durationTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self = self,
-                  let startTime = self.recordingStartTime else { return }
-
-            Task { @MainActor in
+        durationTask = Task { @MainActor in
+            while !Task.isCancelled, let startTime = recordingStartTime {
                 self.recordingDuration = Date().timeIntervalSince(startTime)
+                try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
             }
         }
     }
 
     private func stopDurationTimer() {
-        durationTimer?.invalidate()
-        durationTimer = nil
+        durationTask?.cancel()
+        durationTask = nil
     }
 
     // MARK: - Cleanup
 
     deinit {
-        stopDurationTimer()
+        durationTask?.cancel()
     }
 }
 
@@ -211,16 +231,16 @@ class RecordingService: NSObject, ObservableObject {
 extension RecordingService: AVAudioRecorderDelegate {
 
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        stopDurationTimer()
         Task { @MainActor in
             self.isRecording = false
-            self.stopDurationTimer()
         }
     }
 
     func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+        stopDurationTimer()
         Task { @MainActor in
             self.isRecording = false
-            self.stopDurationTimer()
         }
 
         if let error = error {

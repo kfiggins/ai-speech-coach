@@ -7,6 +7,7 @@
 
 import Foundation
 import Speech
+import Combine
 
 /// Service responsible for transcribing audio files using Apple's Speech framework
 class TranscriptionService: ObservableObject {
@@ -59,7 +60,7 @@ class TranscriptionService: ObservableObject {
         }
 
         // Check file exists
-        guard FileManager.default.fileExists(atPath: audioURL.path()) else {
+        guard FileManager.default.fileExists(atPath: audioURL.path) else {
             throw TranscriptionError.audioFileNotFound
         }
 

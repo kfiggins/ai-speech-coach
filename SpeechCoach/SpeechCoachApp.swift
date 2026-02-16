@@ -13,7 +13,5 @@ struct SpeechCoachApp: App {
         WindowGroup {
             MainView()
         }
-        .windowStyle(.hiddenTitleBar)
-        .windowResizability(.contentSize)
     }
 }

@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject private var viewModel = RecordingViewModel()
-    @State private var sessions: [Session] = []
+    // Shared session store for both view model and session display
+    static let sharedSessionStore = SessionStore()
+
+    @ObservedObject private var sessionStore = MainView.sharedSessionStore
+    @StateObject private var viewModel = RecordingViewModel(sessionStore: MainView.sharedSessionStore)
     @State private var selectedSession: Session?
     @State private var showingResults = false
 
@@ -51,10 +54,16 @@ struct MainView: View {
                     Text("Recent Sessions")
                         .font(.headline)
 
-                    if sessions.isEmpty {
+                    if sessionStore.sessions.isEmpty {
                         EmptyStateView()
                     } else {
-                        SessionListView(sessions: sessions, selectedSession: $selectedSession)
+                        SessionListView(
+                            sessions: sessionStore.sessions,
+                            selectedSession: $selectedSession,
+                            onDelete: { session in
+                                deleteSession(session)
+                            }
+                        )
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -65,7 +74,7 @@ struct MainView: View {
             .frame(width: 600, height: 500)
             .navigationDestination(isPresented: $showingResults) {
                 if let session = selectedSession {
-                    SessionResultsView(session: session)
+                    SessionResultsView(session: session, sessionStore: sessionStore)
                 }
             }
         }
@@ -94,6 +103,15 @@ struct MainView: View {
     private func openSystemSettings() {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone") {
             NSWorkspace.shared.open(url)
+        }
+    }
+
+    private func deleteSession(_ session: Session) {
+        do {
+            try sessionStore.deleteSession(session)
+            print("Session deleted from list: \(session.id)")
+        } catch {
+            print("Failed to delete session: \(error.localizedDescription)")
         }
     }
 }
@@ -183,18 +201,27 @@ struct EmptyStateView: View {
 struct SessionListView: View {
     let sessions: [Session]
     @Binding var selectedSession: Session?
+    var onDelete: ((Session) -> Void)?
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 8) {
-                ForEach(sessions) { session in
-                    SessionListItemView(session: session)
-                        .onTapGesture {
-                            selectedSession = session
+        List {
+            ForEach(sessions) { session in
+                SessionListItemView(session: session)
+                    .onTapGesture {
+                        selectedSession = session
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            onDelete?(session)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
                         }
-                }
+                    }
+                    .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                    .listRowSeparator(.hidden)
             }
         }
+        .listStyle(.plain)
         .frame(maxHeight: 200)
     }
 }

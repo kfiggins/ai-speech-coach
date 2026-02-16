@@ -8,6 +8,7 @@
 import Foundation
 import AVFoundation
 import Speech
+import Combine
 
 /// Manages permissions for microphone and speech recognition
 class PermissionManager: ObservableObject {
