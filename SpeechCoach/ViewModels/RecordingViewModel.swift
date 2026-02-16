@@ -17,6 +17,7 @@ class RecordingViewModel: ObservableObject {
     @Published var status: SessionStatus = .idle
     @Published var currentSession: Session?
     @Published var recordingDuration: TimeInterval = 0
+    @Published var transcriptionProgress: Double = 0
     @Published var errorMessage: String?
     @Published var showingPermissionAlert = false
     @Published var permissionAlertMessage = ""
@@ -25,18 +26,22 @@ class RecordingViewModel: ObservableObject {
 
     private let permissionManager: PermissionManager
     private let recordingService: RecordingService
+    private let transcriptionService: TranscriptionService
 
     // MARK: - Initialization
 
     init(
         permissionManager: PermissionManager = PermissionManager(),
-        recordingService: RecordingService = RecordingService()
+        recordingService: RecordingService = RecordingService(),
+        transcriptionService: TranscriptionService = TranscriptionService()
     ) {
         self.permissionManager = permissionManager
         self.recordingService = recordingService
+        self.transcriptionService = transcriptionService
 
-        // Observe recording service
+        // Observe services
         observeRecordingService()
+        observeTranscriptionService()
     }
 
     // MARK: - Recording Control
@@ -71,13 +76,37 @@ class RecordingViewModel: ObservableObject {
                 status = .processing
 
                 // Stop recording and get final session
-                let session = try await recordingService.stopRecording()
+                var session = try await recordingService.stopRecording()
+
+                // Request speech recognition permission if needed
+                let speechStatus = await permissionManager.requestSpeechRecognitionPermission()
+
+                if speechStatus.isGranted {
+                    // Transcribe the audio
+                    do {
+                        let transcript = try await transcriptionService.transcribe(audioURL: session.audioFileURL)
+                        session.transcriptText = transcript
+
+                        // Save transcript to file
+                        try transcriptionService.saveTranscript(transcript, to: session.transcriptFileURL)
+
+                    } catch {
+                        // Transcription failed, but keep the audio
+                        print("Transcription failed: \(error.localizedDescription)")
+                        session.transcriptText = ""
+                        // Show a non-blocking error message
+                        errorMessage = "Transcription failed, but audio was saved. \(error.localizedDescription)"
+                    }
+                } else {
+                    // Permission denied, skip transcription
+                    session.transcriptText = ""
+                    showPermissionDeniedAlert(for: .speechRecognition)
+                }
+
                 currentSession = session
 
                 // Move to ready state
                 status = .ready
-
-                // Note: Transcription will be added in Phase 3
 
             } catch {
                 handleError(error)
@@ -152,6 +181,28 @@ class RecordingViewModel: ObservableObject {
             let cancellable = recordingService.$recordingDuration
                 .sink { duration in
                     continuation.yield(duration)
+                }
+
+            continuation.onTermination = { _ in
+                cancellable.cancel()
+            }
+        }
+    }
+
+    private func observeTranscriptionService() {
+        // Observe transcription progress
+        Task {
+            for await progress in observeTranscriptionProgress() {
+                self.transcriptionProgress = progress
+            }
+        }
+    }
+
+    private func observeTranscriptionProgress() -> AsyncStream<Double> {
+        AsyncStream { continuation in
+            let cancellable = transcriptionService.$transcriptionProgress
+                .sink { progress in
+                    continuation.yield(progress)
                 }
 
             continuation.onTermination = { _ in

@@ -8,7 +8,7 @@
 import Foundation
 
 /// Represents a recording session with transcript and analytics
-struct Session: Identifiable, Equatable {
+struct Session: Identifiable, Equatable, Codable {
     let id: String
     let createdAt: Date
     var durationSeconds: Double
@@ -25,6 +25,11 @@ struct Session: Identifiable, Equatable {
         self.durationSeconds = 0
         self.transcriptText = ""
         self.stats = nil
+    }
+
+    // Custom coding keys to exclude computed properties
+    enum CodingKeys: String, CodingKey {
+        case id, createdAt, durationSeconds, transcriptText, stats
     }
 
     /// URL to the audio file for this session
@@ -47,7 +52,7 @@ struct Session: Identifiable, Equatable {
 }
 
 /// Statistics for a session
-struct SessionStats: Equatable {
+struct SessionStats: Equatable, Codable {
     let totalWords: Int
     let uniqueWords: Int
     let fillerWordCount: Int
@@ -73,10 +78,16 @@ struct SessionStats: Equatable {
 }
 
 /// Word and its occurrence count
-struct WordCount: Identifiable, Equatable {
-    let id = UUID()
+struct WordCount: Identifiable, Equatable, Codable {
+    let id: UUID
     let word: String
     let count: Int
+
+    init(word: String, count: Int, id: UUID = UUID()) {
+        self.id = id
+        self.word = word
+        self.count = count
+    }
 
     static func == (lhs: WordCount, rhs: WordCount) -> Bool {
         lhs.word == rhs.word && lhs.count == rhs.count
