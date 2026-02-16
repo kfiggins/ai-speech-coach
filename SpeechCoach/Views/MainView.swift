@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var status: SessionStatus = .idle
+    @StateObject private var viewModel = RecordingViewModel()
     @State private var sessions: [Session] = []
     @State private var selectedSession: Session?
     @State private var showingResults = false
@@ -22,21 +22,26 @@ struct MainView: View {
                     .fontWeight(.bold)
 
                 // Status indicator
-                StatusIndicatorView(status: status)
+                StatusIndicatorView(status: viewModel.status)
+
+                // Recording duration (when recording)
+                if viewModel.status.isRecording {
+                    RecordingDurationView(duration: viewModel.formattedDuration)
+                }
 
                 // Start/Stop button
-                Button(action: toggleRecording) {
+                Button(action: { viewModel.toggleRecording() }) {
                     HStack {
-                        Image(systemName: status.isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                        Image(systemName: viewModel.status.isRecording ? "stop.circle.fill" : "mic.circle.fill")
                             .font(.title2)
-                        Text(status.isRecording ? "Stop Recording" : "Start Recording")
+                        Text(viewModel.status.isRecording ? "Stop Recording" : "Start Recording")
                             .font(.headline)
                     }
-                    .frame(width: 200, height: 44)
+                    .frame(width: 220, height: 44)
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(status.isRecording ? .red : .blue)
-                .disabled(!status.canStartRecording && !status.isRecording)
+                .tint(viewModel.status.isRecording ? .red : .blue)
+                .disabled(!viewModel.status.canStartRecording && !viewModel.status.isRecording)
 
                 Divider()
                     .padding(.vertical)
@@ -67,29 +72,52 @@ struct MainView: View {
         .onChange(of: selectedSession) { newValue in
             showingResults = newValue != nil
         }
-    }
-
-    private func toggleRecording() {
-        if status.isRecording {
-            stopRecording()
-        } else {
-            startRecording()
+        .alert("Permission Required", isPresented: $viewModel.showingPermissionAlert) {
+            Button("OK", role: .cancel) { }
+            Button("Open Settings") {
+                openSystemSettings()
+            }
+        } message: {
+            Text(viewModel.permissionAlertMessage)
+        }
+        .alert("Recording Error", isPresented: .constant(viewModel.errorMessage != nil)) {
+            Button("OK", role: .cancel) {
+                viewModel.errorMessage = nil
+            }
+        } message: {
+            if let error = viewModel.errorMessage {
+                Text(error)
+            }
         }
     }
 
-    private func startRecording() {
-        status = .recording
-        // Recording logic will be implemented in Phase 2
-    }
-
-    private func stopRecording() {
-        status = .processing
-        // Stop recording logic will be implemented in Phase 2
-
-        // Simulate processing delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            status = .ready
+    private func openSystemSettings() {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone") {
+            NSWorkspace.shared.open(url)
         }
+    }
+}
+
+// MARK: - Recording Duration
+
+struct RecordingDurationView: View {
+    let duration: String
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Circle()
+                .fill(.red)
+                .frame(width: 8, height: 8)
+                .opacity(0.8)
+
+            Text(duration)
+                .font(.system(.title3, design: .monospaced))
+                .fontWeight(.medium)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
+        .background(Color.red.opacity(0.1))
+        .cornerRadius(20)
     }
 }
 

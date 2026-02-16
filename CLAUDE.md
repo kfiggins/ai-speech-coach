@@ -71,4 +71,5 @@ ai-speech-coach/
 
 ## Current Phase
 ✅ Phase 1: Complete (2026-02-15)
-➡️ Phase 2: Audio Recording Service (see docs/PHASE_2_RECORDING.md)
+✅ Phase 2: Complete (2026-02-15)
+➡️ Phase 3: Transcription Service (see docs/PHASE_3_TRANSCRIPTION.md)
