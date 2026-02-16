@@ -1,0 +1,29 @@
+{
+  "single": [
+    "um",
+    "uh",
+    "er",
+    "ah",
+    "like",
+    "literally",
+    "basically",
+    "actually",
+    "honestly",
+    "really",
+    "seriously",
+    "totally",
+    "obviously",
+    "definitely"
+  ],
+  "multi": [
+    "you know",
+    "i mean",
+    "sort of",
+    "kind of",
+    "i think",
+    "you see",
+    "you know what i mean",
+    "at the end of the day",
+    "to be honest"
+  ]
+}

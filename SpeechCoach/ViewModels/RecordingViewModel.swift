@@ -27,17 +27,20 @@ class RecordingViewModel: ObservableObject {
     private let permissionManager: PermissionManager
     private let recordingService: RecordingService
     private let transcriptionService: TranscriptionService
+    private let statsService: StatsService
 
     // MARK: - Initialization
 
     init(
         permissionManager: PermissionManager = PermissionManager(),
         recordingService: RecordingService = RecordingService(),
-        transcriptionService: TranscriptionService = TranscriptionService()
+        transcriptionService: TranscriptionService = TranscriptionService(),
+        statsService: StatsService = StatsService()
     ) {
         self.permissionManager = permissionManager
         self.recordingService = recordingService
         self.transcriptionService = transcriptionService
+        self.statsService = statsService
 
         // Observe services
         observeRecordingService()
@@ -89,6 +92,13 @@ class RecordingViewModel: ObservableObject {
 
                         // Save transcript to file
                         try transcriptionService.saveTranscript(transcript, to: session.transcriptFileURL)
+
+                        // Calculate stats from transcript
+                        let stats = statsService.calculateStats(
+                            transcript: transcript,
+                            duration: session.durationSeconds
+                        )
+                        session.stats = stats
 
                     } catch {
                         // Transcription failed, but keep the audio

@@ -19,7 +19,8 @@ let package = Package(
             name: "SpeechCoach",
             path: "SpeechCoach",
             resources: [
-                .process("Resources")
+                .copy("Resources/stop-words.json"),
+                .copy("Resources/filler-words.json")
             ]
         ),
         .testTarget(
