@@ -70,4 +70,5 @@ ai-speech-coach/
 - Stored in local JSON for easy customization
 
 ## Current Phase
-Phase 1: Project Setup (see docs/PHASE_1_SETUP.md)
+✅ Phase 1: Complete (2026-02-15)
+➡️ Phase 2: Audio Recording Service (see docs/PHASE_2_RECORDING.md)
