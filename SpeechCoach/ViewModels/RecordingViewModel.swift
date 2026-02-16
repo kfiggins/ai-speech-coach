@@ -108,7 +108,7 @@ class RecordingViewModel: ObservableObject {
                         print("Transcription failed: \(error.localizedDescription)")
                         session.transcriptText = ""
                         // Show a non-blocking error message
-                        errorMessage = "Transcription failed, but audio was saved. \(error.localizedDescription)"
+                        errorMessage = "Transcription failed, but your audio was saved. You can export the audio file and transcribe it later."
                     }
                 } else {
                     // Permission denied, skip transcription

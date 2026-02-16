@@ -1,118 +1,171 @@
-# AI Speech Coach
+# Speech Coach
 
-A macOS application that helps you improve your speaking skills by recording, transcribing, and analyzing your speech patterns.
+A privacy-focused macOS app that helps you improve your speaking skills by recording, transcribing, and analyzing your speech sessions.
 
 ## Features
 
-- 🎙️ **Audio Recording**: Record speech sessions using your microphone
-- 📝 **Automatic Transcription**: Powered by Apple Speech Recognition (on-device)
-- 📊 **Speech Analytics**:
-  - Word count and unique vocabulary tracking
-  - Filler word detection (um, uh, like, you know, etc.)
+- 🎤 **Audio Recording**: High-quality audio recording of your speech practice sessions
+- 📝 **Auto-Transcription**: Automatic transcription using Apple's built-in Speech Recognition
+- 📊 **Speech Analytics**: Detailed statistics including:
+  - Total and unique word counts
+  - Words per minute
+  - Filler word detection ("um", "uh", "like", etc.)
   - Most frequently used words
-  - Words per minute calculation
-- 💾 **Session History**: All sessions stored locally on your Mac
-- 📤 **Export**: Download transcripts and audio files
-- 🔒 **Privacy First**: All processing happens locally, nothing leaves your Mac
+- 💾 **Session Management**: Save and browse your session history
+- 📤 **Export**: Export transcripts (.txt) and audio files (.m4a) to any location
+- 🔒 **Privacy First**: All processing happens locally on your Mac - nothing is uploaded
 
-## Tech Stack
+## Requirements
 
-- **Platform**: macOS 13.0+
-- **Framework**: SwiftUI
-- **Audio**: AVAudioRecorder
-- **Speech**: SFSpeechRecognizer (Apple Speech Framework)
-- **Storage**: JSON-based local storage
+- macOS 13.0 (Ventura) or later
+- Microphone access
+- Speech Recognition permission (for transcription)
 
-## Project Structure
+## Installation
 
-```
-ai-speech-coach/
-├── CLAUDE.md                    # Project reference for AI assistant
-├── README.md                    # This file
-├── docs/                        # Phase-by-phase implementation guides
-│   ├── PHASE_1_SETUP.md
-│   ├── PHASE_2_RECORDING.md
-│   ├── PHASE_3_TRANSCRIPTION.md
-│   ├── PHASE_4_STATS.md
-│   ├── PHASE_5_PERSISTENCE.md
-│   ├── PHASE_6_UI.md
-│   ├── PHASE_7_EXPORT.md
-│   └── PHASE_8_POLISH.md
-├── SpeechCoach/                 # Main app (to be created in Phase 1)
-└── SpeechCoachTests/            # Unit tests (to be created in Phase 1)
-```
+### Building from Source
 
-## Development Workflow
+1. Clone the repository:
+\`\`\`bash
+git clone https://github.com/kfiggins/ai-speech-coach.git
+cd ai-speech-coach
+\`\`\`
 
-This project is built in **8 phases**, each with clear objectives, tasks, and tests:
+2. Open the project in Xcode:
+\`\`\`bash
+open SpeechCoach.xcodeproj
+\`\`\`
 
-1. **Phase 1**: Project Setup & Basic Shell
-2. **Phase 2**: Audio Recording Service
-3. **Phase 3**: Transcription Service
-4. **Phase 4**: Text Processing & Statistics
-5. **Phase 5**: Session Persistence & Storage
-6. **Phase 6**: Results UI & Session History
-7. **Phase 7**: Export Functionality
-8. **Phase 8**: Polish & Error Handling
+3. Build and run (⌘R)
 
-### Working on a Phase
+## Usage
 
-1. Read the phase markdown file in `docs/`
-2. Follow the tasks and implement features
-3. Write tests for each component
-4. Ensure all tests pass
-5. Update the phase file to mark tasks complete
-6. Commit your changes
-7. Move to the next phase
+### Recording a Session
 
-### Testing
+1. Click **"Start Recording"** or press \`⌘R\`
+2. Speak naturally into your microphone
+3. Click **"Stop Recording"** or press \`⌘R\` again
+4. Wait for transcription to complete (automatic)
 
-Each phase includes specific tests to write. Run tests frequently:
+### Viewing Results
 
-```bash
-# In Xcode: Cmd+U
-# Or use xcodebuild
-xcodebuild test -scheme SpeechCoach -destination 'platform=macOS'
-```
+- Tap any session in the **Recent Sessions** list to view:
+  - Full transcript (selectable and copyable)
+  - Speech statistics
+  - Filler word breakdown
+  - Top words analysis
 
-## Getting Started
+### Exporting Data
 
-The project hasn't been created yet. To begin:
+From any session details view:
+- **Export Transcript**: Save the transcript as a .txt file
+- **Export Audio**: Save the original recording as a .m4a file
+- Files are automatically revealed in Finder after export
 
-1. Read [CLAUDE.md](CLAUDE.md) for the full project overview
-2. Start with [docs/PHASE_1_SETUP.md](docs/PHASE_1_SETUP.md)
-3. Create the Xcode project following Phase 1 instructions
+### Managing Sessions
 
-## Privacy & Permissions
+- **Delete**: Swipe left on any session in the list, or use the Delete button in session details
+- All session data (audio, transcript, stats) is stored locally in \`~/Library/Application Support/SpeechCoach/\`
 
-The app requires:
-- **Microphone Access**: To record audio
-- **Speech Recognition**: To transcribe recordings
+## Keyboard Shortcuts
 
-All processing happens on-device. No data is sent to external servers.
+- \`⌘R\` - Start/Stop Recording
+- \`⌘Q\` - Quit App
 
-## Data Storage
+## Privacy
 
-Sessions are stored in:
-```
+Your privacy matters. Speech Coach:
+- ✅ Processes all data locally on your Mac
+- ✅ Uses Apple's built-in Speech Recognition (on-device when available)
+- ✅ Never uploads recordings or transcripts to external servers
+- ✅ Only exports data when you explicitly choose to
+- ✅ Stores session data in your local Application Support directory
+
+## Technical Details
+
+### Architecture
+
+- **SwiftUI**: Modern declarative UI framework
+- **Combine**: Reactive programming for state management
+- **AVFoundation**: Audio recording and playback
+- **Speech Framework**: Apple's speech-to-text API
+- **Clean Architecture**: Separation of Services, ViewModels, and Views
+
+### File Storage
+
+\`\`\`
 ~/Library/Application Support/SpeechCoach/
-├── sessions.json              # Session metadata
+├── sessions.json (session metadata)
 └── Sessions/
-    └── <session-id>/
-        ├── audio.m4a          # Recording
-        └── transcript.txt     # Transcription
-```
+    ├── {session-id}/
+    │   ├── audio.m4a
+    │   └── transcript.txt
+    └── ...
+\`\`\`
 
-## License
+### Data Format
 
-[To be determined]
+Sessions are stored as JSON with the following structure:
+- Session ID, creation date, duration
+- Transcript text
+- Statistics (word counts, filler words, WPM)
+- File references for audio and transcript
+
+## Development
+
+### Project Structure
+
+\`\`\`
+SpeechCoach/
+├── Services/           # Business logic layer
+│   ├── RecordingService.swift
+│   ├── TranscriptionService.swift
+│   ├── StatsService.swift
+│   ├── SessionStore.swift
+│   └── ExportService.swift
+├── ViewModels/         # Presentation logic
+│   ├── RecordingViewModel.swift
+│   ├── SessionListViewModel.swift
+│   └── SessionResultsViewModel.swift
+├── Views/              # UI layer
+│   ├── MainView.swift
+│   └── SessionResultsView.swift
+└── Models/             # Data models
+    ├── Session.swift
+    └── SessionStatus.swift
+
+SpeechCoachTests/       # Unit tests
+\`\`\`
+
+### Running Tests
+
+\`\`\`bash
+xcodebuild test -project SpeechCoach.xcodeproj -scheme SpeechCoach -destination 'platform=macOS'
+\`\`\`
 
 ## Contributing
 
-This is currently a personal project. Contributions welcome after v1.0 release.
+This is a personal project, but suggestions and feedback are welcome! Feel free to open an issue.
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Acknowledgments
+
+- Built with SwiftUI and macOS native frameworks
+- Filler word and stop word lists curated for speech analysis
+- Inspired by the need for privacy-focused speech practice tools
+
+## Roadmap
+
+Potential future enhancements:
+- [ ] CSV export for statistics
+- [ ] Custom filler word lists
+- [ ] Speaking pace visualization
+- [ ] Goal setting and progress tracking
+- [ ] Dark mode optimization
 
 ---
 
-**Current Status**: 🔴 Phase 1 - Project Setup (Not Started)
-
-See [CLAUDE.md](CLAUDE.md) for implementation details.
+Made with ❤️ for better public speaking

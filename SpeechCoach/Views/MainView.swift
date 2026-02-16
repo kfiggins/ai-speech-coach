@@ -45,6 +45,7 @@ struct MainView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(viewModel.status.isRecording ? .red : .blue)
                 .disabled(!viewModel.status.canStartRecording && !viewModel.status.isRecording)
+                .keyboardShortcut("r", modifiers: .command)
 
                 Divider()
                     .padding(.vertical)
@@ -69,6 +70,17 @@ struct MainView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
                 Spacer()
+
+                // Privacy notice
+                HStack(spacing: 4) {
+                    Image(systemName: "lock.shield.fill")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    Text("Your recordings stay private on your Mac")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.top, 8)
             }
             .padding()
             .frame(width: 600, height: 500)
@@ -146,9 +158,15 @@ struct StatusIndicatorView: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Circle()
-                .fill(statusColor)
-                .frame(width: 12, height: 12)
+            if status == .processing {
+                ProgressView()
+                    .scaleEffect(0.8)
+                    .frame(width: 12, height: 12)
+            } else {
+                Circle()
+                    .fill(statusColor)
+                    .frame(width: 12, height: 12)
+            }
 
             Text("Status: \(status.displayText)")
                 .font(.subheadline)
