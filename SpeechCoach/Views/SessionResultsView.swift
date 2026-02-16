@@ -92,18 +92,19 @@ struct SessionResultsView: View {
 
                 Divider()
 
-                // Export buttons (placeholder for Phase 7)
+                // Export buttons
                 HStack(spacing: 12) {
-                    Button(action: { /* Export transcript - Phase 7 */ }) {
+                    Button(action: { viewModel.exportTranscript() }) {
                         Label("Export Transcript", systemImage: "doc.text")
                     }
                     .buttonStyle(.bordered)
-                    .disabled(session.transcriptText.isEmpty)
+                    .disabled(session.transcriptText.isEmpty || viewModel.isExporting)
 
-                    Button(action: { /* Export audio - Phase 7 */ }) {
+                    Button(action: { viewModel.exportAudio() }) {
                         Label("Export Audio", systemImage: "waveform")
                     }
                     .buttonStyle(.bordered)
+                    .disabled(viewModel.isExporting)
                 }
 
                 // Delete button
@@ -133,6 +134,13 @@ struct SessionResultsView: View {
         } message: {
             if let error = viewModel.errorMessage {
                 Text(error)
+            }
+        }
+        .alert("Export Successful", isPresented: $viewModel.showingExportSuccess) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            if let message = viewModel.exportSuccessMessage {
+                Text(message)
             }
         }
     }

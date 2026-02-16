@@ -23,6 +23,7 @@
 		AA0000010000000000000017 /* FileManager+Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000017 /* FileManager+Sessions.swift */; };
 		AA0000010000000000000018 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000018 /* SessionListViewModel.swift */; };
 		AA0000010000000000000019 /* SessionResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000019 /* SessionResultsViewModel.swift */; };
+		AA000001000000000000001A /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001A /* ExportService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		BB0000010000000000000017 /* FileManager+Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Sessions.swift"; sourceTree = "<group>"; };
 		BB0000010000000000000018 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		BB0000010000000000000019 /* SessionResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultsViewModel.swift; sourceTree = "<group>"; };
+		BB000001000000000000001A /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				BB0000010000000000000010 /* StatsService.swift */,
 				BB0000010000000000000016 /* SessionStore.swift */,
 				BB0000010000000000000017 /* FileManager+Sessions.swift */,
+				BB000001000000000000001A /* ExportService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 				AA0000010000000000000017 /* FileManager+Sessions.swift in Sources */,
 				AA0000010000000000000018 /* SessionListViewModel.swift in Sources */,
 				AA0000010000000000000019 /* SessionResultsViewModel.swift in Sources */,
+				AA000001000000000000001A /* ExportService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
