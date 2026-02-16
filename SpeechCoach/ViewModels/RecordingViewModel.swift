@@ -28,6 +28,7 @@ class RecordingViewModel: ObservableObject {
     private let recordingService: RecordingService
     private let transcriptionService: TranscriptionService
     private let statsService: StatsService
+    private let sessionStore: SessionStore
 
     // MARK: - Initialization
 
@@ -35,12 +36,14 @@ class RecordingViewModel: ObservableObject {
         permissionManager: PermissionManager = PermissionManager(),
         recordingService: RecordingService = RecordingService(),
         transcriptionService: TranscriptionService = TranscriptionService(),
-        statsService: StatsService = StatsService()
+        statsService: StatsService = StatsService(),
+        sessionStore: SessionStore = SessionStore()
     ) {
         self.permissionManager = permissionManager
         self.recordingService = recordingService
         self.transcriptionService = transcriptionService
         self.statsService = statsService
+        self.sessionStore = sessionStore
 
         // Observe services
         observeRecordingService()
@@ -114,6 +117,15 @@ class RecordingViewModel: ObservableObject {
                 }
 
                 currentSession = session
+
+                // Save session to storage
+                do {
+                    try sessionStore.addSession(session)
+                    print("Session saved successfully: \(session.id)")
+                } catch {
+                    print("Failed to save session: \(error.localizedDescription)")
+                    errorMessage = "Session saved locally but failed to persist: \(error.localizedDescription)"
+                }
 
                 // Move to ready state
                 status = .ready
