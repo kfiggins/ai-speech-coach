@@ -74,4 +74,5 @@ ai-speech-coach/
 ✅ Phase 2: Complete (2026-02-15)
 ✅ Phase 3: Complete (2026-02-16)
 ✅ Phase 4: Complete (2026-02-16)
-➡️ Phase 5: Session Persistence & Storage (see docs/PHASE_5_PERSISTENCE.md)
+✅ Phase 5: Complete (2026-02-16)
+➡️ Phase 6: Results UI & Session History (see docs/PHASE_6_UI.md)
