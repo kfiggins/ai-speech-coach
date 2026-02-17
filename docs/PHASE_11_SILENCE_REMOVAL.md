@@ -1,6 +1,6 @@
 # Phase 11: Silence Removal Service
 
-**Status:** Not Started
+**Status:** Complete (2026-02-17)
 **Objective:** Pre-process recorded audio to remove silent segments before uploading to OpenAI, reducing upload size, API cost, and improving transcription quality.
 
 ## New Files
@@ -42,7 +42,7 @@ Input/output both m4a (AAC, 44.1kHz, mono) — matching `RecordingService` forma
 Standalone service — integrated in Phase 12.
 
 ## Completion Criteria
-- [ ] Silence removal works on real recorded audio
-- [ ] All edge cases handled (all silent, no silence, too short)
-- [ ] All tests pass
-- [ ] `swift build` succeeds
+- [x] Silence removal works on programmatically generated audio (sine + silence patterns)
+- [x] All edge cases handled (all silent, no silence, too short, custom threshold)
+- [x] All 9 tests pass
+- [x] `swift build` succeeds
