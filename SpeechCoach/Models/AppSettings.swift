@@ -31,6 +31,16 @@ class AppSettings: ObservableObject {
         didSet { UserDefaults.standard.set(targetAudience, forKey: "targetAudience") }
     }
 
+    /// Cached Keychain check — read once at init, updated on save/delete
+    @Published var hasAPIKey: Bool = false
+
+    private let keychain = KeychainService()
+
+    /// Call after saving or deleting the API key to update the cached flag
+    func refreshAPIKeyStatus() {
+        hasAPIKey = keychain.hasOpenAIKey
+    }
+
     init() {
         // Load transcription model
         if let raw = UserDefaults.standard.string(forKey: "transcriptionModel"),

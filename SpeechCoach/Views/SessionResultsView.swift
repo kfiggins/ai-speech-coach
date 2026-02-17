@@ -11,8 +11,7 @@ struct SessionResultsView: View {
     let sessionStore: SessionStore
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: SessionResultsViewModel
-
-    private let keychain = KeychainService()
+    @ObservedObject private var appSettings = AppSettings.shared
 
     init(session: Session, sessionStore: SessionStore = MainView.sharedSessionStore) {
         self.sessionStore = sessionStore
@@ -23,7 +22,7 @@ struct SessionResultsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 // API key warning banner
-                if !keychain.hasOpenAIKey {
+                if !appSettings.hasAPIKey {
                     HStack(spacing: 8) {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundColor(.orange)
@@ -85,7 +84,7 @@ struct SessionResultsView: View {
                                 Label("Transcribe", systemImage: "waveform.and.mic")
                             }
                             .buttonStyle(.borderedProminent)
-                            .disabled(!keychain.hasOpenAIKey)
+                            .disabled(!appSettings.hasAPIKey)
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -111,7 +110,7 @@ struct SessionResultsView: View {
                                 .font(.caption)
                         }
                         .buttonStyle(.borderless)
-                        .disabled(!keychain.hasOpenAIKey)
+                        .disabled(!appSettings.hasAPIKey)
                     }
                 }
 
@@ -164,7 +163,7 @@ struct SessionResultsView: View {
                                 .font(.caption)
                         }
                         .buttonStyle(.borderless)
-                        .disabled(!keychain.hasOpenAIKey)
+                        .disabled(!appSettings.hasAPIKey)
                     } else if viewModel.hasTranscript {
                         VStack(spacing: 12) {
                             Text("Get AI-powered feedback on your speech")
@@ -177,7 +176,7 @@ struct SessionResultsView: View {
                                 Label("Get Coaching", systemImage: "sparkles")
                             }
                             .buttonStyle(.borderedProminent)
-                            .disabled(!keychain.hasOpenAIKey)
+                            .disabled(!appSettings.hasAPIKey)
                         }
                         .padding()
                         .frame(maxWidth: .infinity)

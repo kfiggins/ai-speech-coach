@@ -14,7 +14,7 @@ class SilenceRemovalService {
     // MARK: - Configuration
 
     struct Configuration {
-        var silenceThresholdDb: Double = -40.0
+        var silenceThresholdDb: Double = -55.0
         var windowDurationMs: Double = 50.0
         var minimumOutputDuration: Double = 1.0
     }

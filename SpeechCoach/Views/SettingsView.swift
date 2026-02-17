@@ -12,11 +12,8 @@ struct SettingsView: View {
     @ObservedObject var appSettings: AppSettings
 
     @State private var apiKeyInput = ""
-    @State private var hasKey = false
     @State private var showingAPIKey = false
     @State private var saveError: String?
-
-    private let keychain = KeychainService()
 
     init(appSettings: AppSettings = AppSettings.shared) {
         self.appSettings = appSettings
@@ -60,7 +57,7 @@ struct SettingsView: View {
                     }
 
                     HStack(spacing: 6) {
-                        if hasKey {
+                        if appSettings.hasAPIKey {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
                             Text("API key configured")
@@ -131,22 +128,19 @@ struct SettingsView: View {
             .formStyle(.grouped)
         }
         .frame(width: 450, height: 500)
-        .onAppear {
-            hasKey = keychain.hasOpenAIKey
-        }
     }
 
     private func saveAPIKey() {
         saveError = nil
+        let keychain = KeychainService()
         do {
             let trimmed = apiKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.isEmpty {
                 try keychain.delete(key: .openAIAPIKey)
-                hasKey = false
             } else {
                 try keychain.save(key: .openAIAPIKey, value: trimmed)
-                hasKey = true
             }
+            appSettings.refreshAPIKeyStatus()
             apiKeyInput = ""
         } catch {
             saveError = error.localizedDescription

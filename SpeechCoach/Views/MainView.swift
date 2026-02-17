@@ -16,8 +16,7 @@ struct MainView: View {
     @State private var selectedSession: Session?
     @State private var showingResults = false
     @State private var showingSettings = false
-
-    private let keychain = KeychainService()
+    @ObservedObject private var appSettings = AppSettings.shared
 
     var body: some View {
         NavigationStack {
@@ -37,7 +36,7 @@ struct MainView: View {
                 }
 
                 // API key setup banner
-                if !keychain.hasOpenAIKey {
+                if !appSettings.hasAPIKey {
                     HStack(spacing: 8) {
                         Image(systemName: "key.fill")
                             .foregroundColor(.orange)
@@ -126,6 +125,9 @@ struct MainView: View {
             if !newValue {
                 selectedSession = nil
             }
+        }
+        .onAppear {
+            appSettings.refreshAPIKeyStatus()
         }
         .sheet(isPresented: $showingSettings) {
             SettingsView()

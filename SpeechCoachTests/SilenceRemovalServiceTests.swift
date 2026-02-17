@@ -184,7 +184,7 @@ final class SilenceRemovalServiceTests: XCTestCase {
 
     func testConfigurationDefaults() {
         let config = SilenceRemovalService.Configuration()
-        XCTAssertEqual(config.silenceThresholdDb, -40.0)
+        XCTAssertEqual(config.silenceThresholdDb, -55.0)
         XCTAssertEqual(config.windowDurationMs, 50.0)
         XCTAssertEqual(config.minimumOutputDuration, 1.0)
     }
