@@ -26,6 +26,11 @@
 		AA0000010000000000000018 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000018 /* SessionListViewModel.swift */; };
 		AA0000010000000000000019 /* SessionResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000019 /* SessionResultsViewModel.swift */; };
 		AA000001000000000000001A /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001A /* ExportService.swift */; };
+		AA000001000000000000001E /* CoachingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001E /* CoachingResult.swift */; };
+		AA000001000000000000001F /* CoachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001F /* CoachingService.swift */; };
+		AA0000010000000000000020 /* SilenceRemovalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000020 /* SilenceRemovalService.swift */; };
+		AA0000010000000000000021 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000021 /* SettingsView.swift */; };
+		AA0000010000000000000022 /* CoachingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000022 /* CoachingResultsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +56,11 @@
 		BB0000010000000000000018 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		BB0000010000000000000019 /* SessionResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultsViewModel.swift; sourceTree = "<group>"; };
 		BB000001000000000000001A /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		BB000001000000000000001E /* CoachingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingResult.swift; sourceTree = "<group>"; };
+		BB000001000000000000001F /* CoachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingService.swift; sourceTree = "<group>"; };
+		BB0000010000000000000020 /* SilenceRemovalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilenceRemovalService.swift; sourceTree = "<group>"; };
+		BB0000010000000000000021 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BB0000010000000000000022 /* CoachingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingResultsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +110,8 @@
 			children = (
 				BB0000010000000000000002 /* MainView.swift */,
 				BB0000010000000000000003 /* SessionResultsView.swift */,
+				BB0000010000000000000021 /* SettingsView.swift */,
+				BB0000010000000000000022 /* CoachingResultsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -120,6 +132,7 @@
 				BB0000010000000000000005 /* Session.swift */,
 				BB0000010000000000000006 /* SessionStatus.swift */,
 				BB000001000000000000001D /* AppSettings.swift */,
+				BB000001000000000000001E /* CoachingResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -131,6 +144,8 @@
 				BB0000010000000000000008 /* RecordingService.swift */,
 				BB000001000000000000001B /* OpenAITranscriptionService.swift */,
 				BB000001000000000000001C /* KeychainService.swift */,
+				BB000001000000000000001F /* CoachingService.swift */,
+				BB0000010000000000000020 /* SilenceRemovalService.swift */,
 				BB0000010000000000000010 /* StatsService.swift */,
 				BB0000010000000000000016 /* SessionStore.swift */,
 				BB0000010000000000000017 /* FileManager+Sessions.swift */,
@@ -235,6 +250,11 @@
 				AA0000010000000000000018 /* SessionListViewModel.swift in Sources */,
 				AA0000010000000000000019 /* SessionResultsViewModel.swift in Sources */,
 				AA000001000000000000001A /* ExportService.swift in Sources */,
+				AA000001000000000000001E /* CoachingResult.swift in Sources */,
+				AA000001000000000000001F /* CoachingService.swift in Sources */,
+				AA0000010000000000000020 /* SilenceRemovalService.swift in Sources */,
+				AA0000010000000000000021 /* SettingsView.swift in Sources */,
+				AA0000010000000000000022 /* CoachingResultsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

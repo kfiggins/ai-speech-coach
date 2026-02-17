@@ -151,7 +151,11 @@ class StatsService {
 
     /// Load stop words from JSON file
     private func loadStopWords() {
+        #if SWIFT_PACKAGE
         let bundle = Bundle.module
+        #else
+        let bundle = Bundle.main
+        #endif
 
         guard let url = bundle.url(forResource: "stop-words", withExtension: "json"),
               let data = try? Data(contentsOf: url),
@@ -165,7 +169,11 @@ class StatsService {
 
     /// Load filler words from JSON file
     private func loadFillerWords() {
+        #if SWIFT_PACKAGE
         let bundle = Bundle.module
+        #else
+        let bundle = Bundle.main
+        #endif
 
         guard let url = bundle.url(forResource: "filler-words", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {
