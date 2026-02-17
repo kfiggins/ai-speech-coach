@@ -1,6 +1,6 @@
 # Phase 10: Coaching Analysis Service
 
-**Status:** Not Started
+**Status:** Complete (2026-02-17)
 **Objective:** Create a new service that sends transcripts to OpenAI's Responses API for LLM-powered speech coaching analysis.
 
 ## New Files
@@ -45,8 +45,9 @@
 - Codable round-trip, partial data handling
 
 ## Completion Criteria
-- [ ] `CoachingResult` model compiles with all nested structs
-- [ ] `CoachingService` sends correct request format to OpenAI Responses API
-- [ ] `Session.coachingResult` added without breaking existing data
-- [ ] All tests pass
-- [ ] `swift build` succeeds
+- [x] `CoachingResult` model compiles with all nested structs
+- [x] `CoachingService` sends correct request format to OpenAI Responses API
+- [x] `Session.coachingResult` added without breaking existing data
+- [x] All tests pass (34 Phase 10 tests + 27 pre-existing tests)
+- [x] `swift build` succeeds
+- [x] `AppSettings` updated to use typed `CoachingModel` and `CoachingStyle` enums

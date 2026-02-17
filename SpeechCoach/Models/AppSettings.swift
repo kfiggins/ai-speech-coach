@@ -15,12 +15,12 @@ class AppSettings: ObservableObject {
         didSet { UserDefaults.standard.set(transcriptionModel.rawValue, forKey: "transcriptionModel") }
     }
 
-    @Published var coachingModel: String {
-        didSet { UserDefaults.standard.set(coachingModel, forKey: "coachingModel") }
+    @Published var coachingModel: CoachingService.CoachingModel {
+        didSet { UserDefaults.standard.set(coachingModel.rawValue, forKey: "coachingModel") }
     }
 
-    @Published var coachingStyle: String {
-        didSet { UserDefaults.standard.set(coachingStyle, forKey: "coachingStyle") }
+    @Published var coachingStyle: CoachingService.CoachingStyle {
+        didSet { UserDefaults.standard.set(coachingStyle.rawValue, forKey: "coachingStyle") }
     }
 
     @Published var speechGoal: String {
@@ -40,11 +40,21 @@ class AppSettings: ObservableObject {
             self.transcriptionModel = .gpt4oTranscribe
         }
 
-        // Load coaching model (will be typed properly in Phase 10)
-        self.coachingModel = UserDefaults.standard.string(forKey: "coachingModel") ?? "gpt-4.1"
+        // Load coaching model
+        if let raw = UserDefaults.standard.string(forKey: "coachingModel"),
+           let model = CoachingService.CoachingModel(rawValue: raw) {
+            self.coachingModel = model
+        } else {
+            self.coachingModel = .gpt4_1
+        }
 
         // Load coaching style
-        self.coachingStyle = UserDefaults.standard.string(forKey: "coachingStyle") ?? "supportive"
+        if let raw = UserDefaults.standard.string(forKey: "coachingStyle"),
+           let style = CoachingService.CoachingStyle(rawValue: raw) {
+            self.coachingStyle = style
+        } else {
+            self.coachingStyle = .supportive
+        }
 
         // Load speech goal and target audience
         self.speechGoal = UserDefaults.standard.string(forKey: "speechGoal") ?? ""

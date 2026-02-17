@@ -14,6 +14,7 @@ struct Session: Identifiable, Equatable, Codable {
     var durationSeconds: Double
     var transcriptText: String
     var stats: SessionStats?
+    var coachingResult: CoachingResult?
 
     static func == (lhs: Session, rhs: Session) -> Bool {
         lhs.id == rhs.id
@@ -25,11 +26,17 @@ struct Session: Identifiable, Equatable, Codable {
         self.durationSeconds = 0
         self.transcriptText = ""
         self.stats = nil
+        self.coachingResult = nil
     }
 
     // Custom coding keys to exclude computed properties
     enum CodingKeys: String, CodingKey {
-        case id, createdAt, durationSeconds, transcriptText, stats
+        case id, createdAt, durationSeconds, transcriptText, stats, coachingResult
+    }
+
+    /// Whether this session has coaching analysis
+    var hasCoaching: Bool {
+        coachingResult != nil
     }
 
     /// URL to the audio file for this session

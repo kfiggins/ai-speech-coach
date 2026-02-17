@@ -86,8 +86,8 @@ ai-speech-coach/
 ✅ Phase 6: Results UI (2026-02-16)
 ✅ Phase 7: Export (2026-02-16)
 ✅ Phase 8: Polish (2026-02-16)
-⬜ Phase 9: Transcription Provider Abstraction
-⬜ Phase 10: Groq Whisper Provider
+✅ Phase 9: OpenAI Transcription Service (2026-02-17)
+✅ Phase 10: Coaching Analysis Service (2026-02-17)
 ⬜ Phase 11: Silence Removal Service
 ⬜ Phase 12: Decouple Transcription from Recording
 ⬜ Phase 13: UI Updates (Transcribe Button, Settings, Privacy)
