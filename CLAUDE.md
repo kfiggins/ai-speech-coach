@@ -5,15 +5,17 @@ A macOS SwiftUI application that records speech sessions, transcribes them using
 
 ## Core Functionality
 - **Audio Recording**: Record microphone audio during sessions
-- **Transcription**: Automatic transcription using Apple Speech Recognition
+- **Transcription**: On-demand transcription via Apple Speech (local) or Groq Whisper (cloud)
+- **Silence Removal**: Pre-process audio to strip dead space before cloud transcription
 - **Analytics**: Compute word statistics, filler word counts, most used words
 - **Session Management**: Store and retrieve session history locally
 - **Export**: Download transcripts and audio files
 
 ## Technical Stack
 - **Platform**: macOS (SwiftUI)
-- **Audio**: AVAudioRecorder
-- **Speech**: SFSpeechRecognizer (Apple Speech framework)
+- **Audio**: AVAudioRecorder, AVAudioFile (silence removal)
+- **Speech**: SFSpeechRecognizer (local) or Groq Whisper API (cloud)
+- **Networking**: URLSession (for Groq API calls)
 - **Storage**: JSON-based session persistence in Application Support
 - **Architecture**: Clean separation of concerns (Services + ViewModels + Views)
 
@@ -36,7 +38,13 @@ ai-speech-coach/
 │   ├── PHASE_5_PERSISTENCE.md
 │   ├── PHASE_6_UI.md
 │   ├── PHASE_7_EXPORT.md
-│   └── PHASE_8_POLISH.md
+│   ├── PHASE_8_POLISH.md
+│   ├── PHASE_9_PROVIDER_ABSTRACTION.md
+│   ├── PHASE_10_GROQ_PROVIDER.md
+│   ├── PHASE_11_SILENCE_REMOVAL.md
+│   ├── PHASE_12_ASYNC_TRANSCRIPTION.md
+│   ├── PHASE_13_UI_UPDATES.md
+│   └── PHASE_14_TESTING_POLISH.md
 ├── SpeechCoach/
 │   ├── Services/
 │   ├── Models/
@@ -69,16 +77,22 @@ ai-speech-coach/
 - **Stop Words**: Basic English stop words (the, and, a, to, of, in, is, it, etc.)
 - Stored in local JSON for easy customization
 
-## Current Phase
-✅ Phase 1: Complete (2026-02-15)
-✅ Phase 2: Complete (2026-02-15)
-✅ Phase 3: Complete (2026-02-16)
-✅ Phase 4: Complete (2026-02-16)
-✅ Phase 5: Complete (2026-02-16)
-✅ Phase 6: Complete (2026-02-16)
-✅ Phase 7: Complete (2026-02-16)
-✅ Phase 8: Complete (2026-02-16)
+## Phase Status
+✅ Phase 1: Project Setup (2026-02-15)
+✅ Phase 2: Audio Recording (2026-02-15)
+✅ Phase 3: Transcription (2026-02-16)
+✅ Phase 4: Stats & Analytics (2026-02-16)
+✅ Phase 5: Session Persistence (2026-02-16)
+✅ Phase 6: Results UI (2026-02-16)
+✅ Phase 7: Export (2026-02-16)
+✅ Phase 8: Polish (2026-02-16)
+⬜ Phase 9: Transcription Provider Abstraction
+⬜ Phase 10: Groq Whisper Provider
+⬜ Phase 11: Silence Removal Service
+⬜ Phase 12: Decouple Transcription from Recording
+⬜ Phase 13: UI Updates (Transcribe Button, Settings, Privacy)
+⬜ Phase 14: Testing & Polish
 
-## Project Complete! 🎉
+## Current Work: Groq Whisper Integration
 
-All 8 phases have been successfully implemented. The Speech Coach app is ready for use!
+Phases 9-14 add cloud-based transcription via Groq's Whisper API, silence removal pre-processing, and async transcription decoupled from recording. See each phase doc for details.
