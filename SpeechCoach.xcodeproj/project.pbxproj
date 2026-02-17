@@ -15,7 +15,9 @@
 		AA0000010000000000000006 /* SessionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000006 /* SessionStatus.swift */; };
 		AA0000010000000000000007 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000007 /* PermissionManager.swift */; };
 		AA0000010000000000000008 /* RecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000008 /* RecordingService.swift */; };
-		AA0000010000000000000009 /* TranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000009 /* TranscriptionService.swift */; };
+		AA000001000000000000001B /* OpenAITranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001B /* OpenAITranscriptionService.swift */; };
+		AA000001000000000000001C /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001C /* KeychainService.swift */; };
+		AA000001000000000000001D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001D /* AppSettings.swift */; };
 		AA0000010000000000000010 /* StatsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000010 /* StatsService.swift */; };
 		AA0000010000000000000011 /* stop-words.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000011 /* stop-words.json */; };
 		AA0000010000000000000012 /* filler-words.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000012 /* filler-words.json */; };
@@ -36,7 +38,9 @@
 		BB0000010000000000000006 /* SessionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStatus.swift; sourceTree = "<group>"; };
 		BB0000010000000000000007 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		BB0000010000000000000008 /* RecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingService.swift; sourceTree = "<group>"; };
-		BB0000010000000000000009 /* TranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionService.swift; sourceTree = "<group>"; };
+		BB000001000000000000001B /* OpenAITranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAITranscriptionService.swift; sourceTree = "<group>"; };
+		BB000001000000000000001C /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		BB000001000000000000001D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		BB0000010000000000000010 /* StatsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsService.swift; sourceTree = "<group>"; };
 		BB0000010000000000000011 /* stop-words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stop-words.json"; sourceTree = "<group>"; };
 		BB0000010000000000000012 /* filler-words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "filler-words.json"; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 			children = (
 				BB0000010000000000000005 /* Session.swift */,
 				BB0000010000000000000006 /* SessionStatus.swift */,
+				BB000001000000000000001D /* AppSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -124,7 +129,8 @@
 			children = (
 				BB0000010000000000000007 /* PermissionManager.swift */,
 				BB0000010000000000000008 /* RecordingService.swift */,
-				BB0000010000000000000009 /* TranscriptionService.swift */,
+				BB000001000000000000001B /* OpenAITranscriptionService.swift */,
+				BB000001000000000000001C /* KeychainService.swift */,
 				BB0000010000000000000010 /* StatsService.swift */,
 				BB0000010000000000000016 /* SessionStore.swift */,
 				BB0000010000000000000017 /* FileManager+Sessions.swift */,
@@ -220,7 +226,9 @@
 				AA0000010000000000000006 /* SessionStatus.swift in Sources */,
 				AA0000010000000000000007 /* PermissionManager.swift in Sources */,
 				AA0000010000000000000008 /* RecordingService.swift in Sources */,
-				AA0000010000000000000009 /* TranscriptionService.swift in Sources */,
+				AA000001000000000000001B /* OpenAITranscriptionService.swift in Sources */,
+				AA000001000000000000001C /* KeychainService.swift in Sources */,
+				AA000001000000000000001D /* AppSettings.swift in Sources */,
 				AA0000010000000000000010 /* StatsService.swift in Sources */,
 				AA0000010000000000000016 /* SessionStore.swift in Sources */,
 				AA0000010000000000000017 /* FileManager+Sessions.swift in Sources */,

@@ -26,7 +26,7 @@ class RecordingViewModel: ObservableObject {
 
     private let permissionManager: PermissionManager
     private let recordingService: RecordingService
-    private let transcriptionService: TranscriptionService
+    private let transcriptionService: OpenAITranscriptionService
     private let statsService: StatsService
     private let sessionStore: SessionStore
 
@@ -35,7 +35,7 @@ class RecordingViewModel: ObservableObject {
     init(
         permissionManager: PermissionManager = PermissionManager(),
         recordingService: RecordingService = RecordingService(),
-        transcriptionService: TranscriptionService = TranscriptionService(),
+        transcriptionService: OpenAITranscriptionService = OpenAITranscriptionService(),
         statsService: StatsService = StatsService(),
         sessionStore: SessionStore = SessionStore()
     ) {
@@ -84,36 +84,26 @@ class RecordingViewModel: ObservableObject {
                 // Stop recording and get final session
                 var session = try await recordingService.stopRecording()
 
-                // Request speech recognition permission if needed
-                let speechStatus = await permissionManager.requestSpeechRecognitionPermission()
+                // Transcribe the audio via OpenAI
+                do {
+                    let transcript = try await transcriptionService.transcribe(audioURL: session.audioFileURL)
+                    session.transcriptText = transcript
 
-                if speechStatus.isGranted {
-                    // Transcribe the audio
-                    do {
-                        let transcript = try await transcriptionService.transcribe(audioURL: session.audioFileURL)
-                        session.transcriptText = transcript
+                    // Save transcript to file
+                    try transcriptionService.saveTranscript(transcript, to: session.transcriptFileURL)
 
-                        // Save transcript to file
-                        try transcriptionService.saveTranscript(transcript, to: session.transcriptFileURL)
+                    // Calculate stats from transcript
+                    let stats = statsService.calculateStats(
+                        transcript: transcript,
+                        duration: session.durationSeconds
+                    )
+                    session.stats = stats
 
-                        // Calculate stats from transcript
-                        let stats = statsService.calculateStats(
-                            transcript: transcript,
-                            duration: session.durationSeconds
-                        )
-                        session.stats = stats
-
-                    } catch {
-                        // Transcription failed, but keep the audio
-                        print("Transcription failed: \(error.localizedDescription)")
-                        session.transcriptText = ""
-                        // Show a non-blocking error message
-                        errorMessage = "Transcription failed, but your audio was saved. You can export the audio file and transcribe it later."
-                    }
-                } else {
-                    // Permission denied, skip transcription
+                } catch {
+                    // Transcription failed, but keep the audio
+                    print("Transcription failed: \(error.localizedDescription)")
                     session.transcriptText = ""
-                    showPermissionDeniedAlert(for: .speechRecognition)
+                    errorMessage = "Transcription failed, but your audio was saved. You can transcribe it later from the session results."
                 }
 
                 currentSession = session

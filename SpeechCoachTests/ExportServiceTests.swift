@@ -58,28 +58,16 @@ final class ExportServiceTests: XCTestCase {
     // MARK: - Filename Generation Tests
 
     func testGenerateTranscriptFilename() throws {
-        // Use reflection to access private method (for testing)
-        let mirror = Mirror(reflecting: exportService!)
-
-        // Create a known date
-        var session = Session()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        session.createdAt = dateFormatter.date(from: "2026-02-16 14:30")!
-
-        // We can't directly test private methods, but we can verify the format by checking
-        // the exported filename through the public API behavior
-        // For now, we'll just verify the session has a creation date
+        // Verify sessions have a valid creation date
+        let session = Session()
         XCTAssertNotNil(session.createdAt)
+        XCTAssertFalse(session.formattedDate.isEmpty)
     }
 
     func testGenerateAudioFilename() throws {
-        var session = Session()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        session.createdAt = dateFormatter.date(from: "2026-02-16 14:30")!
-
+        let session = Session()
         XCTAssertNotNil(session.createdAt)
+        XCTAssertFalse(session.formattedDate.isEmpty)
     }
 
     // MARK: - File Existence Tests

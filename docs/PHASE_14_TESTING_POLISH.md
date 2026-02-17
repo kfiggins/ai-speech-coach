@@ -1,74 +1,64 @@
 # Phase 14: Testing & Polish
 
-## Status
-⬜ Not Started
+**Status:** Not Started
+**Objective:** Ensure comprehensive test coverage, handle edge cases, perform end-to-end verification, and clean up the codebase.
 
-## Objectives
-- Ensure all tests pass after the full refactor
-- Update existing tests for changed interfaces
-- Handle edge cases and error scenarios
-- Full end-to-end manual verification
+## Test Updates
 
-## Tasks
-- [ ] Update `TranscriptionServiceTests.swift`:
-  - [ ] Test default provider is Apple
-  - [ ] Test `setProvider()` persists to UserDefaults
-  - [ ] Test fallback to local when Groq selected but no API key
-  - [ ] Test `requiresSpeechPermission` correct per provider
-  - [ ] Test `isCloudProvider` correct per provider
-- [ ] Verify existing test suites:
-  - [ ] `RecordingServiceTests` — should pass unchanged
-  - [ ] `StatsServiceTests` — should pass unchanged
-  - [ ] `SessionStoreTests` — should pass unchanged
-  - [ ] `SessionResultsViewModelTests` — update for new dependencies
-  - [ ] `PermissionManagerTests` — should pass unchanged
-  - [ ] `ExportServiceTests` — should pass unchanged
-- [ ] Edge cases:
-  - [ ] Transcribe button disabled if already transcribing
-  - [ ] Switching provider while transcription in progress — prevent or handle
-  - [ ] Missing API key when Groq selected: helpful error on transcribe attempt
-  - [ ] Network failure during Groq transcription: show error, allow retry
-  - [ ] Very large audio files (>25MB): clear error before upload
-  - [ ] Session with existing transcript: don't show Transcribe button (or offer re-transcribe)
+### Verify existing tests pass unchanged
+- `RecordingServiceTests`
+- `StatsServiceTests`
+- `SessionStoreTests`
+- `ExportServiceTests`
 
-## Files to Modify
-- `SpeechCoachTests/TranscriptionServiceTests.swift`
-- `SpeechCoachTests/SessionResultsViewModelTests.swift`
-- Other test files as needed
+### Update for changed interfaces
+- `SessionTests.swift` — Add `CoachingResult` encoding/decoding test
+- `SessionStatusTests.swift` — Update for removed `.processing` case
+- `SessionResultsViewModelTests.swift` — Update for new dependencies, add transcription/coaching flow tests
+- `PermissionManagerTests.swift` — Remove speech recognition tests
 
-## Tests to Write/Update
-- [ ] TranscriptionService coordinator tests (provider switching, persistence, fallback)
-- [ ] SessionResultsViewModel transcription flow tests
-- [ ] Edge case tests (missing API key, network failure, large files)
-- [ ] Integration test gated behind `RUN_INTEGRATION_TESTS=1` env var (optional)
+### Optional: gated integration test
+- Requires `OPENAI_API_KEY` env var
+- Full transcription + coaching flow with real API
 
-## Acceptance Criteria
-- [ ] `swift build` succeeds with no warnings
-- [ ] `swift test` — ALL tests pass (existing + new)
-- [ ] Manual walkthrough: record → view session → transcribe with Apple Speech → verify stats
-- [ ] Manual walkthrough: set GROQ_API_KEY → switch to Groq → record → transcribe → verify
-- [ ] Manual: verify silence removal works (record with pauses → transcribe → check)
-- [ ] Manual: verify can record new session while previous is being transcribed
-- [ ] No memory leaks or crashes
-- [ ] Code committed
+## Edge Cases
+- [ ] Transcribe button disabled while transcribing
+- [ ] Get Coaching disabled without transcript or while analyzing
+- [ ] Missing API key → helpful error pointing to Settings
+- [ ] Network failure → error with retry option
+- [ ] Audio > 25MB after silence removal → clear error before upload
+- [ ] Session with existing transcript → allow re-transcribe
+- [ ] Session with existing coaching → allow re-analyze
+
+## Cleanup
+- [ ] Remove all `import Speech` / `SFSpeechRecognizer` references
+- [ ] Remove `NSSpeechRecognitionUsageDescription` from Info.plist
+- [ ] Ensure `com.apple.security.network.client` entitlement exists
+- [ ] Update `CLAUDE.md`: phase statuses, tech stack, permissions, privacy note
+- [ ] `swift build` with no warnings
+- [ ] `swift test` all green
 
 ## Manual Testing Checklist
-- [ ] Fresh launch: default provider is Apple, privacy notice shows local
-- [ ] Switch to Groq without API key: warning shown in settings
-- [ ] Switch to Groq with API key: checkmark shown, privacy notice updates
-- [ ] Record session → stop → session appears in list immediately
-- [ ] Can start new recording right after stopping
-- [ ] Open session → "Transcribe" button visible
-- [ ] Click Transcribe → loading indicator with progress
-- [ ] After transcription: transcript + stats populate
-- [ ] Export transcript works after transcription
-- [ ] Delete session works
-- [ ] Error: unset GROQ_API_KEY with Groq selected → transcribe → clear error message
-- [ ] Error: disconnect network → transcribe with Groq → network error shown
+1. Fresh launch, no API key → settings banner visible
+2. Enter key in Settings → saves → banner gone
+3. Record → stop → session saved immediately (no transcript)
+4. Can start new recording right away
+5. Open session → "Transcribe" button → loading → transcript + stats appear
+6. "Get Coaching" button → loading → scores, highlights, action plan appear
+7. Export transcript/audio works
+8. Delete session works
+9. Remove API key → Transcribe → clear error
+10. Disconnect network → Transcribe → network error
+11. Record with long pauses → silence removal reduces file → transcription works
+12. Settings: change models, coaching style → persisted on relaunch
+13. Settings: API key show/hide toggle works
+14. Multiple sessions: transcribe different sessions → verify isolation
+15. Re-transcribe a session that already has a transcript
 
-## Completion
+## Completion Criteria
 - [ ] All tests passing
 - [ ] Manual testing complete
 - [ ] Edge cases handled
-- [ ] Code committed to git
-- [ ] Update CLAUDE.md with new phase statuses
+- [ ] Codebase clean (no Apple Speech references)
+- [ ] CLAUDE.md updated
+- [ ] Code committed

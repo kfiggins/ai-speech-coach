@@ -1,85 +1,68 @@
-# Phase 12: Decouple Transcription from Recording
+# Phase 12: Decouple Recording & On-Demand Processing
 
-## Status
-⬜ Not Started
-
-## Objectives
-- Stop blocking the UI after recording stops
-- Save session immediately (audio only) so user can start a new recording right away
-- Move transcription to on-demand (triggered by user via "Transcribe" button)
-- Transcription happens in SessionResultsViewModel with loading state
+**Status:** Not Started
+**Objective:** Save audio immediately when recording stops. Transcription + coaching happen on-demand from session results.
 
 ## Flow Change
 ```
-BEFORE: Record → Stop → Transcribe (blocks UI) → Stats → Save → Ready
-AFTER:  Record → Stop → Save audio → Ready (can record again)
-        Later: User clicks "Transcribe" → Remove silence → Transcribe → Stats → Update session
+BEFORE: Record → Stop → Transcribe via OpenAI → Stats → Save → Ready
+AFTER:  Record → Stop → Save audio-only session → Ready
+        Later: "Transcribe" → Silence removal → OpenAI transcribe → Local stats → Save
+        Later: "Get Coaching" → OpenAI coaching → Save
 ```
 
-## Tasks
-- [ ] Simplify `RecordingViewModel.stopRecording()`:
-  - [ ] Stop recording, get session with audio and duration
-  - [ ] Save session immediately via `sessionStore.addSession()` (empty transcript, no stats)
-  - [ ] Set status to `.ready` — user can record again
-  - [ ] Remove all transcription and stats logic from this method
-  - [ ] Make `transcriptionService` internal (not private) so views can access it
-- [ ] Add transcription capability to `SessionResultsViewModel`:
-  - [ ] Add dependencies: `transcriptionService`, `statsService`, `silenceRemovalService`
-  - [ ] Add `@Published var isTranscribing = false`
-  - [ ] Add `@Published var transcriptionProgress: Double = 0`
-  - [ ] Make `session` a `@Published var` instead of `let` (so UI refreshes after transcription)
-  - [ ] Add `func transcribeSession()`:
-    1. Set `isTranscribing = true`
-    2. If cloud provider: run `silenceRemovalService.removeSilence()` on audio
-    3. Call `transcriptionService.transcribe(audioURL:)`
-    4. Save transcript to file via `transcriptionService.saveTranscript()`
-    5. Calculate stats via `statsService`
-    6. Update session via `sessionStore.updateSession()`
-    7. Update local `session` property so UI refreshes
-    8. Set `isTranscribing = false`
-  - [ ] Handle errors: show error message but keep session intact
+## Modified Files
 
-## Files to Modify
-- `SpeechCoach/ViewModels/RecordingViewModel.swift` (simplify)
-- `SpeechCoach/ViewModels/SessionResultsViewModel.swift` (add transcription)
+### `SpeechCoach/ViewModels/RecordingViewModel.swift`
+- Major simplification of `stopRecording()`:
+  - Remove transcription + stats logic
+  - Just save session with empty transcript and set `.ready`
+- Remove `transcriptionService`, `statsService` dependencies
+- Remove `observeTranscriptionService()` / `observeTranscriptionProgress()`
+- Remove `transcriptionProgress` property
+- Remove `.speechRecognition` from `PermissionType` enum
 
-## Tests to Write
-- [ ] Test `RecordingViewModel.stopRecording()` saves session without transcribing
-- [ ] Test `RecordingViewModel` status is `.ready` after stop (not `.processing`)
-- [ ] Test `SessionResultsViewModel.transcribeSession()` updates session with transcript
-- [ ] Test `SessionResultsViewModel.transcribeSession()` calculates stats
-- [ ] Test `SessionResultsViewModel.isTranscribing` state management
-- [ ] Test error handling during transcription (session preserved)
-- [ ] Existing tests updated for new dependencies
+### `SpeechCoach/ViewModels/SessionResultsViewModel.swift`
+- Change `let session` → `@Published var session`
+- Add dependencies: `OpenAITranscriptionService`, `StatsService`, `SilenceRemovalService`, `CoachingService`, `AppSettings`
+- Add `@Published isTranscribing`, `isAnalyzingCoaching`, `transcriptionProgress`
+- Add `transcribeSession()`:
+  1. Run silence removal on audio
+  2. Transcribe with OpenAI
+  3. Save transcript to file
+  4. Compute local stats with StatsService
+  5. Update session via sessionStore
+- Add `analyzeCoaching()`:
+  1. Validate transcript exists
+  2. Call CoachingService
+  3. Update session.coachingResult via sessionStore
 
-## Acceptance Criteria
-- [ ] Build succeeds (`swift build`)
-- [ ] Record → Stop → session saved immediately (no transcript yet)
-- [ ] Can start new recording immediately after stopping
-- [ ] No transcription happens automatically
-- [ ] All tests pass (`swift test`)
-- [ ] Code committed
+### `SpeechCoach/Services/PermissionManager.swift`
+- Remove `import Speech` and all speech recognition permission code
+- Simplify `allPermissionsGranted` / `requestAllPermissions()` to microphone only
 
-## Technical Details
-**RecordingViewModel changes** (lines to modify):
-- Remove lines 87-117 (permission check + transcription + stats) from `stopRecording()`
-- Replace with: save session, set status to `.ready`
-- Change `private let transcriptionService` → `let transcriptionService`
+### `SpeechCoach/Models/SessionStatus.swift`
+- Remove `.processing` case (transcribing/coaching state lives in view models)
 
-**SessionResultsViewModel new init**:
-```swift
-init(
-    session: Session,
-    sessionStore: SessionStore,
-    transcriptionService: TranscriptionService = TranscriptionService(),
-    statsService: StatsService = StatsService(),
-    silenceRemovalService: SilenceRemovalService = SilenceRemovalService(),
-    exportService: ExportService = ExportService()
-)
-```
+## Tests
 
-## Completion
-- [ ] Implementation complete
-- [ ] Tests written and passing
-- [ ] Code committed to git
-- [ ] Ready for Phase 13
+### `SpeechCoachTests/SessionResultsViewModelTests.swift`
+- Update for new init signature with all dependencies
+- Test `transcribeSession()` flow
+- Test `analyzeCoaching()` flow
+- Test error handling (session preserved)
+
+### `SpeechCoachTests/PermissionManagerTests.swift`
+- Remove speech recognition tests
+
+### `SpeechCoachTests/Helpers/MockURLProtocol.swift`
+- Extract shared mock for reuse across test files
+
+## Completion Criteria
+- [ ] Recording saves immediately without transcribing
+- [ ] Can start new recording right after stopping
+- [ ] `transcribeSession()` works end-to-end
+- [ ] `analyzeCoaching()` works end-to-end
+- [ ] Speech recognition permissions removed
+- [ ] All tests pass
+- [ ] `swift build` succeeds
