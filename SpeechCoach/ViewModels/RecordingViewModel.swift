@@ -17,7 +17,6 @@ class RecordingViewModel: ObservableObject {
     @Published var status: SessionStatus = .idle
     @Published var currentSession: Session?
     @Published var recordingDuration: TimeInterval = 0
-    @Published var transcriptionProgress: Double = 0
     @Published var errorMessage: String?
     @Published var showingPermissionAlert = false
     @Published var permissionAlertMessage = ""
@@ -26,8 +25,6 @@ class RecordingViewModel: ObservableObject {
 
     private let permissionManager: PermissionManager
     private let recordingService: RecordingService
-    private let transcriptionService: OpenAITranscriptionService
-    private let statsService: StatsService
     private let sessionStore: SessionStore
 
     // MARK: - Initialization
@@ -35,19 +32,13 @@ class RecordingViewModel: ObservableObject {
     init(
         permissionManager: PermissionManager = PermissionManager(),
         recordingService: RecordingService = RecordingService(),
-        transcriptionService: OpenAITranscriptionService = OpenAITranscriptionService(),
-        statsService: StatsService = StatsService(),
         sessionStore: SessionStore = SessionStore()
     ) {
         self.permissionManager = permissionManager
         self.recordingService = recordingService
-        self.transcriptionService = transcriptionService
-        self.statsService = statsService
         self.sessionStore = sessionStore
 
-        // Observe services
         observeRecordingService()
-        observeTranscriptionService()
     }
 
     // MARK: - Recording Control
@@ -60,7 +51,7 @@ class RecordingViewModel: ObservableObject {
                 let micStatus = await permissionManager.requestMicrophonePermission()
 
                 guard micStatus.isGranted else {
-                    showPermissionDeniedAlert(for: .microphone)
+                    showPermissionDeniedAlert()
                     return
                 }
 
@@ -75,40 +66,16 @@ class RecordingViewModel: ObservableObject {
         }
     }
 
-    /// Stop the current recording
+    /// Stop the current recording and save audio-only session
     func stopRecording() {
         Task {
             do {
-                status = .processing
-
                 // Stop recording and get final session
-                var session = try await recordingService.stopRecording()
-
-                // Transcribe the audio via OpenAI
-                do {
-                    let transcript = try await transcriptionService.transcribe(audioURL: session.audioFileURL)
-                    session.transcriptText = transcript
-
-                    // Save transcript to file
-                    try transcriptionService.saveTranscript(transcript, to: session.transcriptFileURL)
-
-                    // Calculate stats from transcript
-                    let stats = statsService.calculateStats(
-                        transcript: transcript,
-                        duration: session.durationSeconds
-                    )
-                    session.stats = stats
-
-                } catch {
-                    // Transcription failed, but keep the audio
-                    print("Transcription failed: \(error.localizedDescription)")
-                    session.transcriptText = ""
-                    errorMessage = "Transcription failed, but your audio was saved. You can transcribe it later from the session results."
-                }
+                let session = try await recordingService.stopRecording()
 
                 currentSession = session
 
-                // Save session to storage
+                // Save session to storage (audio only, no transcript yet)
                 do {
                     try sessionStore.addSession(session)
                     print("Session saved successfully: \(session.id)")
@@ -117,7 +84,7 @@ class RecordingViewModel: ObservableObject {
                     errorMessage = "Session saved locally but failed to persist: \(error.localizedDescription)"
                 }
 
-                // Move to ready state
+                // Move to ready state immediately
                 status = .ready
 
             } catch {
@@ -137,32 +104,12 @@ class RecordingViewModel: ObservableObject {
 
     // MARK: - Permission Handling
 
-    enum PermissionType {
-        case microphone
-        case speechRecognition
+    private func showPermissionDeniedAlert() {
+        permissionAlertMessage = """
+            Speech Coach needs microphone access to record your sessions.
 
-        var alertMessage: String {
-            switch self {
-            case .microphone:
-                return """
-                Speech Coach needs microphone access to record your sessions.
-
-                Please allow access in System Settings > Privacy & Security > Microphone.
-                """
-            case .speechRecognition:
-                return """
-                Speech Coach needs permission to transcribe your recordings.
-
-                Please allow access in System Settings > Privacy & Security > Speech Recognition.
-
-                You can still record and export audio without transcription.
-                """
-            }
-        }
-    }
-
-    private func showPermissionDeniedAlert(for type: PermissionType) {
-        permissionAlertMessage = type.alertMessage
+            Please allow access in System Settings > Privacy & Security > Microphone.
+            """
         showingPermissionAlert = true
         status = .idle
     }
@@ -180,7 +127,6 @@ class RecordingViewModel: ObservableObject {
     // MARK: - Observation
 
     private func observeRecordingService() {
-        // Observe recording duration updates
         Task {
             for await duration in observeDuration() {
                 self.recordingDuration = duration
@@ -193,28 +139,6 @@ class RecordingViewModel: ObservableObject {
             let cancellable = recordingService.$recordingDuration
                 .sink { duration in
                     continuation.yield(duration)
-                }
-
-            continuation.onTermination = { _ in
-                cancellable.cancel()
-            }
-        }
-    }
-
-    private func observeTranscriptionService() {
-        // Observe transcription progress
-        Task {
-            for await progress in observeTranscriptionProgress() {
-                self.transcriptionProgress = progress
-            }
-        }
-    }
-
-    private func observeTranscriptionProgress() -> AsyncStream<Double> {
-        AsyncStream { continuation in
-            let cancellable = transcriptionService.$transcriptionProgress
-                .sink { progress in
-                    continuation.yield(progress)
                 }
 
             continuation.onTermination = { _ in

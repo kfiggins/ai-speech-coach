@@ -1,6 +1,6 @@
 # Phase 12: Decouple Recording & On-Demand Processing
 
-**Status:** Not Started
+**Status:** Complete (2026-02-17)
 **Objective:** Save audio immediately when recording stops. Transcription + coaching happen on-demand from session results.
 
 ## Flow Change
@@ -59,10 +59,12 @@ AFTER:  Record → Stop → Save audio-only session → Ready
 - Extract shared mock for reuse across test files
 
 ## Completion Criteria
-- [ ] Recording saves immediately without transcribing
-- [ ] Can start new recording right after stopping
-- [ ] `transcribeSession()` works end-to-end
-- [ ] `analyzeCoaching()` works end-to-end
-- [ ] Speech recognition permissions removed
-- [ ] All tests pass
-- [ ] `swift build` succeeds
+- [x] Recording saves immediately without transcribing
+- [x] Can start new recording right after stopping (idle → recording → ready)
+- [x] `transcribeSession()` works end-to-end (silence removal → transcribe → stats → save)
+- [x] `analyzeCoaching()` works end-to-end (validate transcript → coaching → save)
+- [x] Speech recognition permissions removed (`import Speech` gone)
+- [x] `.processing` status removed (state lives in view models)
+- [x] MockURLProtocol extracted to shared test helper
+- [x] All 76 tests pass
+- [x] `swift build` succeeds

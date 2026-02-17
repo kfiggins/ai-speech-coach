@@ -89,7 +89,7 @@ ai-speech-coach/
 ✅ Phase 9: OpenAI Transcription Service (2026-02-17)
 ✅ Phase 10: Coaching Analysis Service (2026-02-17)
 ✅ Phase 11: Silence Removal Service (2026-02-17)
-⬜ Phase 12: Decouple Transcription from Recording
+✅ Phase 12: Decouple Recording & On-Demand Processing (2026-02-17)
 ⬜ Phase 13: UI Updates (Transcribe Button, Settings, Privacy)
 ⬜ Phase 14: Testing & Polish
 

@@ -158,15 +158,9 @@ struct StatusIndicatorView: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            if status == .processing {
-                ProgressView()
-                    .scaleEffect(0.8)
-                    .frame(width: 12, height: 12)
-            } else {
-                Circle()
-                    .fill(statusColor)
-                    .frame(width: 12, height: 12)
-            }
+            Circle()
+                .fill(statusColor)
+                .frame(width: 12, height: 12)
 
             Text("Status: \(status.displayText)")
                 .font(.subheadline)
@@ -184,8 +178,6 @@ struct StatusIndicatorView: View {
             return .gray
         case .recording:
             return .red
-        case .processing:
-            return .orange
         case .ready:
             return .green
         }

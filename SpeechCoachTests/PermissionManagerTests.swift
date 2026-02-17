@@ -27,7 +27,6 @@ final class PermissionManagerTests: XCTestCase {
     func testPermissionManagerInitialization() {
         XCTAssertNotNil(permissionManager)
         XCTAssertNotNil(permissionManager.microphonePermissionStatus)
-        XCTAssertNotNil(permissionManager.speechRecognitionPermissionStatus)
     }
 
     // MARK: - Permission Status Tests
@@ -46,31 +45,18 @@ final class PermissionManagerTests: XCTestCase {
 
     // MARK: - Combined Permission Tests
 
-    func testAllPermissionsGrantedWhenBothGranted() {
+    func testAllPermissionsGrantedWhenMicGranted() {
         permissionManager.microphonePermissionStatus = .granted
-        permissionManager.speechRecognitionPermissionStatus = .granted
-
         XCTAssertTrue(permissionManager.allPermissionsGranted)
     }
 
-    func testAllPermissionsNotGrantedWhenOneDenied() {
-        permissionManager.microphonePermissionStatus = .granted
-        permissionManager.speechRecognitionPermissionStatus = .denied
-
-        XCTAssertFalse(permissionManager.allPermissionsGranted)
-    }
-
-    func testAllPermissionsNotGrantedWhenBothDenied() {
+    func testAllPermissionsNotGrantedWhenMicDenied() {
         permissionManager.microphonePermissionStatus = .denied
-        permissionManager.speechRecognitionPermissionStatus = .denied
-
         XCTAssertFalse(permissionManager.allPermissionsGranted)
     }
 
     func testAllPermissionsNotGrantedWhenNotDetermined() {
         permissionManager.microphonePermissionStatus = .notDetermined
-        permissionManager.speechRecognitionPermissionStatus = .notDetermined
-
         XCTAssertFalse(permissionManager.allPermissionsGranted)
     }
 
@@ -78,9 +64,4 @@ final class PermissionManagerTests: XCTestCase {
     // Tests that request actual system permissions are commented out
     // to avoid test failures due to permission prompts.
     // These should be tested manually or in an integration test environment.
-    //
-    // Manual tests include:
-    // - testRequestMicrophonePermissionReturnsStatus
-    // - testRequestSpeechRecognitionPermissionReturnsStatus
-    // - testRequestAllPermissionsReturnsBool
 }

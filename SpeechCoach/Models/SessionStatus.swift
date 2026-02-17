@@ -7,11 +7,10 @@
 
 import Foundation
 
-/// Represents the current status of the application
+/// Represents the current status of the recording flow
 enum SessionStatus: String {
     case idle = "Idle"
     case recording = "Recording"
-    case processing = "Processing"
     case ready = "Ready"
 
     var displayText: String {
