@@ -122,6 +122,11 @@ struct MainView: View {
         .onChange(of: selectedSession) { newValue in
             showingResults = newValue != nil
         }
+        .onChange(of: showingResults) { newValue in
+            if !newValue {
+                selectedSession = nil
+            }
+        }
         .sheet(isPresented: $showingSettings) {
             SettingsView()
         }

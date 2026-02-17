@@ -18,6 +18,10 @@ struct Session: Identifiable, Equatable, Codable {
 
     static func == (lhs: Session, rhs: Session) -> Bool {
         lhs.id == rhs.id
+            && lhs.transcriptText == rhs.transcriptText
+            && lhs.durationSeconds == rhs.durationSeconds
+            && lhs.stats == rhs.stats
+            && lhs.coachingResult == rhs.coachingResult
     }
 
     init(id: String = UUID().uuidString, createdAt: Date = Date()) {

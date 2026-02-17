@@ -10,17 +10,14 @@ import XCTest
 
 final class KeychainServiceTests: XCTestCase {
 
-    var keychain: KeychainService!
+    var keychain: MockKeychainService!
 
     override func setUp() async throws {
         try await super.setUp()
-        keychain = KeychainService()
-        // Clean up any leftover test keys
-        try? keychain.delete(key: .openAIAPIKey)
+        keychain = MockKeychainService()
     }
 
     override func tearDown() async throws {
-        try? keychain.delete(key: .openAIAPIKey)
         keychain = nil
         try await super.tearDown()
     }
