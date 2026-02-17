@@ -1,13 +1,13 @@
 # Phase 14: Testing & Polish
 
-**Status:** Not Started
+**Status:** Complete (2026-02-17)
 **Objective:** Ensure comprehensive test coverage, handle edge cases, perform end-to-end verification, and clean up the codebase.
 
 ## Test Updates
 
 ### Verify existing tests pass unchanged
 - `RecordingServiceTests`
-- `StatsServiceTests`
+- `StatsServiceTests` (fixed Bundle.main → Bundle.module for JSON resource loading)
 - `SessionStoreTests`
 - `ExportServiceTests`
 
@@ -22,21 +22,22 @@
 - Full transcription + coaching flow with real API
 
 ## Edge Cases
-- [ ] Transcribe button disabled while transcribing
-- [ ] Get Coaching disabled without transcript or while analyzing
-- [ ] Missing API key → helpful error pointing to Settings
-- [ ] Network failure → error with retry option
-- [ ] Audio > 25MB after silence removal → clear error before upload
-- [ ] Session with existing transcript → allow re-transcribe
-- [ ] Session with existing coaching → allow re-analyze
+- [x] Transcribe button disabled while transcribing
+- [x] Get Coaching disabled without transcript or while analyzing
+- [x] Missing API key → helpful error pointing to Settings
+- [x] Network failure → error with retry option
+- [x] Audio > 25MB after silence removal → clear error before upload
+- [x] Session with existing transcript → allow re-transcribe
+- [x] Session with existing coaching → allow re-analyze
 
 ## Cleanup
-- [ ] Remove all `import Speech` / `SFSpeechRecognizer` references
-- [ ] Remove `NSSpeechRecognitionUsageDescription` from Info.plist
-- [ ] Ensure `com.apple.security.network.client` entitlement exists
-- [ ] Update `CLAUDE.md`: phase statuses, tech stack, permissions, privacy note
-- [ ] `swift build` with no warnings
-- [ ] `swift test` all green
+- [x] Remove all `import Speech` / `SFSpeechRecognizer` references
+- [x] Remove `NSSpeechRecognitionUsageDescription` from Info.plist
+- [x] Ensure `com.apple.security.network.client` entitlement exists
+- [x] Update `CLAUDE.md`: phase statuses, tech stack, permissions, privacy note
+- [x] Fix StatsService Bundle.main → Bundle.module for test resource loading
+- [x] `swift build` with no warnings
+- [x] `swift test` all 153 tests green (0 failures)
 
 ## Manual Testing Checklist
 1. Fresh launch, no API key → settings banner visible
@@ -56,9 +57,9 @@
 15. Re-transcribe a session that already has a transcript
 
 ## Completion Criteria
-- [ ] All tests passing
-- [ ] Manual testing complete
-- [ ] Edge cases handled
-- [ ] Codebase clean (no Apple Speech references)
-- [ ] CLAUDE.md updated
-- [ ] Code committed
+- [x] All tests passing (153/153)
+- [ ] Manual testing complete (requires running the app)
+- [x] Edge cases handled
+- [x] Codebase clean (no Apple Speech references)
+- [x] CLAUDE.md updated
+- [x] Code committed
