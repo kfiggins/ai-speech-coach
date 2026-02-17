@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SessionResultsView: View {
-    let session: Session
     let sessionStore: SessionStore
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: SessionResultsViewModel
 
+    private let keychain = KeychainService()
+
     init(session: Session, sessionStore: SessionStore = MainView.sharedSessionStore) {
-        self.session = session
         self.sessionStore = sessionStore
         _viewModel = StateObject(wrappedValue: SessionResultsViewModel(session: session, sessionStore: sessionStore))
     }
@@ -22,6 +22,20 @@ struct SessionResultsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
+                // API key warning banner
+                if !keychain.hasOpenAIKey {
+                    HStack(spacing: 8) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.orange)
+                        Text("No API key configured. Set up your OpenAI API key in Settings to transcribe and get coaching.")
+                            .font(.caption)
+                    }
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.orange.opacity(0.1))
+                    .cornerRadius(8)
+                }
+
                 // Header
                 HStack {
                     VStack(alignment: .leading) {
@@ -29,7 +43,7 @@ struct SessionResultsView: View {
                             .font(.title)
                             .fontWeight(.bold)
 
-                        Text(session.formattedDate)
+                        Text(viewModel.session.formattedDate)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
@@ -48,17 +62,38 @@ struct SessionResultsView: View {
                     Text("Transcript")
                         .font(.headline)
 
-                    if session.transcriptText.isEmpty {
-                        Text("Transcript will be available after processing...")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.secondary.opacity(0.1))
-                            .cornerRadius(8)
+                    if viewModel.isTranscribing {
+                        VStack(spacing: 8) {
+                            ProgressView(value: viewModel.transcriptionProgress)
+                            Text("Transcribing... \(Int(viewModel.transcriptionProgress * 100))%")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.secondary.opacity(0.1))
+                        .cornerRadius(8)
+                    } else if viewModel.session.transcriptText.isEmpty {
+                        VStack(spacing: 12) {
+                            Text("No transcript yet")
+                                .font(.body)
+                                .foregroundColor(.secondary)
+
+                            Button(action: {
+                                Task { await viewModel.transcribeSession() }
+                            }) {
+                                Label("Transcribe", systemImage: "waveform.and.mic")
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .disabled(!keychain.hasOpenAIKey)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.secondary.opacity(0.1))
+                        .cornerRadius(8)
                     } else {
                         ScrollView {
-                            Text(session.transcriptText)
+                            Text(viewModel.session.transcriptText)
                                 .font(.body)
                                 .textSelection(.enabled)
                                 .padding()
@@ -67,20 +102,89 @@ struct SessionResultsView: View {
                         .frame(height: 200)
                         .background(Color.secondary.opacity(0.05))
                         .cornerRadius(8)
+
+                        // Re-transcribe option
+                        Button(action: {
+                            Task { await viewModel.transcribeSession() }
+                        }) {
+                            Label("Re-transcribe", systemImage: "arrow.clockwise")
+                                .font(.caption)
+                        }
+                        .buttonStyle(.borderless)
+                        .disabled(!keychain.hasOpenAIKey)
                     }
                 }
 
                 Divider()
 
-                // Statistics section (placeholder for Phase 4)
+                // Statistics section
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Statistics")
                         .font(.headline)
 
-                    if let stats = session.stats {
+                    if let stats = viewModel.session.stats {
                         StatsGridView(stats: stats)
                     } else {
-                        Text("Statistics will be calculated after transcription...")
+                        Text("Statistics will be calculated after transcription.")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.secondary.opacity(0.1))
+                            .cornerRadius(8)
+                    }
+                }
+
+                Divider()
+
+                // Coaching section
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Coaching Analysis")
+                        .font(.headline)
+
+                    if viewModel.isAnalyzingCoaching {
+                        VStack(spacing: 8) {
+                            ProgressView()
+                            Text("Analyzing your speech...")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.secondary.opacity(0.1))
+                        .cornerRadius(8)
+                    } else if let coaching = viewModel.session.coachingResult {
+                        CoachingResultsView(result: coaching)
+
+                        // Re-analyze option
+                        Button(action: {
+                            Task { await viewModel.analyzeCoaching() }
+                        }) {
+                            Label("Re-analyze", systemImage: "arrow.clockwise")
+                                .font(.caption)
+                        }
+                        .buttonStyle(.borderless)
+                        .disabled(!keychain.hasOpenAIKey)
+                    } else if viewModel.hasTranscript {
+                        VStack(spacing: 12) {
+                            Text("Get AI-powered feedback on your speech")
+                                .font(.body)
+                                .foregroundColor(.secondary)
+
+                            Button(action: {
+                                Task { await viewModel.analyzeCoaching() }
+                            }) {
+                                Label("Get Coaching", systemImage: "sparkles")
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .disabled(!keychain.hasOpenAIKey)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.secondary.opacity(0.1))
+                        .cornerRadius(8)
+                    } else {
+                        Text("Transcribe your session first to get coaching analysis.")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .padding()
@@ -98,7 +202,7 @@ struct SessionResultsView: View {
                         Label("Export Transcript", systemImage: "doc.text")
                     }
                     .buttonStyle(.bordered)
-                    .disabled(session.transcriptText.isEmpty || viewModel.isExporting)
+                    .disabled(viewModel.session.transcriptText.isEmpty || viewModel.isExporting)
 
                     Button(action: { viewModel.exportAudio() }) {
                         Label("Export Audio", systemImage: "waveform")
@@ -117,7 +221,7 @@ struct SessionResultsView: View {
             }
             .padding()
         }
-        .frame(width: 700, height: 600)
+        .frame(width: 700, height: 650)
         .alert("Delete Session", isPresented: $viewModel.showingDeleteConfirmation) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {

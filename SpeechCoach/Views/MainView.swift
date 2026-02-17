@@ -15,14 +15,43 @@ struct MainView: View {
     @StateObject private var viewModel = RecordingViewModel(sessionStore: MainView.sharedSessionStore)
     @State private var selectedSession: Session?
     @State private var showingResults = false
+    @State private var showingSettings = false
+
+    private let keychain = KeychainService()
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                // Header
-                Text("Speech Coach")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                // Header with settings gear
+                HStack {
+                    Spacer()
+                    Text("Speech Coach")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(action: { showingSettings = true }) {
+                        Image(systemName: "gear")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.borderless)
+                }
+
+                // API key setup banner
+                if !keychain.hasOpenAIKey {
+                    HStack(spacing: 8) {
+                        Image(systemName: "key.fill")
+                            .foregroundColor(.orange)
+                        Text("Set up your API key in Settings to enable transcription and coaching.")
+                            .font(.caption)
+                        Spacer()
+                        Button("Open Settings") { showingSettings = true }
+                            .font(.caption)
+                            .buttonStyle(.borderless)
+                    }
+                    .padding(10)
+                    .background(Color.orange.opacity(0.1))
+                    .cornerRadius(8)
+                }
 
                 // Status indicator
                 StatusIndicatorView(status: viewModel.status)
@@ -73,17 +102,17 @@ struct MainView: View {
 
                 // Privacy notice
                 HStack(spacing: 4) {
-                    Image(systemName: "lock.shield.fill")
+                    Image(systemName: "cloud")
                         .font(.caption2)
                         .foregroundColor(.secondary)
-                    Text("Your recordings stay private on your Mac")
+                    Text("Audio is sent to OpenAI for transcription and coaching")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                 }
                 .padding(.top, 8)
             }
             .padding()
-            .frame(width: 600, height: 500)
+            .frame(width: 700, height: 550)
             .navigationDestination(isPresented: $showingResults) {
                 if let session = selectedSession {
                     SessionResultsView(session: session, sessionStore: sessionStore)
@@ -92,6 +121,9 @@ struct MainView: View {
         }
         .onChange(of: selectedSession) { newValue in
             showingResults = newValue != nil
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
         }
         .alert("Permission Required", isPresented: $viewModel.showingPermissionAlert) {
             Button("OK", role: .cancel) { }
@@ -251,7 +283,7 @@ struct SessionListItemView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 } else {
-                    Text("Processing...")
+                    Text("Not transcribed")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

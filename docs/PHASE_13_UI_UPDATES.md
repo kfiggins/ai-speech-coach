@@ -1,6 +1,6 @@
 # Phase 13: UI Updates — Settings, Coaching Results, Transcribe Button
 
-**Status:** Not Started
+**Status:** Complete (2026-02-17)
 **Objective:** Add settings UI for API key and model configuration, transcribe/coaching buttons, coaching results display, and updated privacy notice.
 
 ## New Files
@@ -42,12 +42,12 @@
 - Bump frame to ~700x550
 
 ## Completion Criteria
-- [ ] Settings view opens from gear icon
-- [ ] API key saves to Keychain and status indicator works
-- [ ] Model/style preferences persist across launches
-- [ ] "Transcribe" button appears on sessions without transcripts
-- [ ] "Get Coaching" button appears after transcription
-- [ ] Coaching results display with scores, highlights, action plan
-- [ ] Privacy notice shows cloud messaging
-- [ ] All tests pass
-- [ ] `swift build` succeeds
+- [x] Settings view opens from gear icon
+- [x] API key saves to Keychain and status indicator works
+- [x] Model/style preferences persist across launches
+- [x] "Transcribe" button appears on sessions without transcripts
+- [x] "Get Coaching" button appears after transcription
+- [x] Coaching results display with scores, highlights, action plan
+- [x] Privacy notice shows cloud messaging
+- [x] All tests pass (except pre-existing StatsServiceTests JSON resource issue)
+- [x] `swift build` succeeds
