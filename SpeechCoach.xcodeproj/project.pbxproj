@@ -15,9 +15,6 @@
 		AA0000010000000000000006 /* SessionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000006 /* SessionStatus.swift */; };
 		AA0000010000000000000007 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000007 /* PermissionManager.swift */; };
 		AA0000010000000000000008 /* RecordingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000008 /* RecordingService.swift */; };
-		AA000001000000000000001B /* OpenAITranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001B /* OpenAITranscriptionService.swift */; };
-		AA000001000000000000001C /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001C /* KeychainService.swift */; };
-		AA000001000000000000001D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001D /* AppSettings.swift */; };
 		AA0000010000000000000010 /* StatsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000010 /* StatsService.swift */; };
 		AA0000010000000000000011 /* stop-words.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000011 /* stop-words.json */; };
 		AA0000010000000000000012 /* filler-words.json in Resources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000012 /* filler-words.json */; };
@@ -26,6 +23,9 @@
 		AA0000010000000000000018 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000018 /* SessionListViewModel.swift */; };
 		AA0000010000000000000019 /* SessionResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000019 /* SessionResultsViewModel.swift */; };
 		AA000001000000000000001A /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001A /* ExportService.swift */; };
+		AA000001000000000000001B /* OpenAITranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001B /* OpenAITranscriptionService.swift */; };
+		AA000001000000000000001C /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001C /* KeychainService.swift */; };
+		AA000001000000000000001D /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001D /* AppSettings.swift */; };
 		AA000001000000000000001E /* CoachingResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001E /* CoachingResult.swift */; };
 		AA000001000000000000001F /* CoachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB000001000000000000001F /* CoachingService.swift */; };
 		AA0000010000000000000020 /* SilenceRemovalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000020 /* SilenceRemovalService.swift */; };
@@ -35,7 +35,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CC0000010000000000000001 /* SpeechCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeechCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB0000010000000000000001 /* SpeechCoachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCoachApp.swift; sourceTree = "<group>"; };
 		BB0000010000000000000002 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		BB0000010000000000000003 /* SessionResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultsView.swift; sourceTree = "<group>"; };
@@ -44,9 +43,6 @@
 		BB0000010000000000000006 /* SessionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStatus.swift; sourceTree = "<group>"; };
 		BB0000010000000000000007 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		BB0000010000000000000008 /* RecordingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingService.swift; sourceTree = "<group>"; };
-		BB000001000000000000001B /* OpenAITranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAITranscriptionService.swift; sourceTree = "<group>"; };
-		BB000001000000000000001C /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
-		BB000001000000000000001D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		BB0000010000000000000010 /* StatsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsService.swift; sourceTree = "<group>"; };
 		BB0000010000000000000011 /* stop-words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "stop-words.json"; sourceTree = "<group>"; };
 		BB0000010000000000000012 /* filler-words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "filler-words.json"; sourceTree = "<group>"; };
@@ -57,12 +53,16 @@
 		BB0000010000000000000018 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		BB0000010000000000000019 /* SessionResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionResultsViewModel.swift; sourceTree = "<group>"; };
 		BB000001000000000000001A /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		BB000001000000000000001B /* OpenAITranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAITranscriptionService.swift; sourceTree = "<group>"; };
+		BB000001000000000000001C /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		BB000001000000000000001D /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		BB000001000000000000001E /* CoachingResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingResult.swift; sourceTree = "<group>"; };
 		BB000001000000000000001F /* CoachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingService.swift; sourceTree = "<group>"; };
 		BB0000010000000000000020 /* SilenceRemovalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilenceRemovalService.swift; sourceTree = "<group>"; };
 		BB0000010000000000000021 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BB0000010000000000000022 /* CoachingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingResultsView.swift; sourceTree = "<group>"; };
 		BB0000010000000000000023 /* SpeakingQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingQuoteView.swift; sourceTree = "<group>"; };
+		CC0000010000000000000001 /* SpeechCoach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeechCoach.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,7 +194,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					FF0000010000000000000001 = {
 						CreatedOnToolsVersion = 15.0;
@@ -299,6 +299,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -323,6 +324,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -362,6 +364,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -379,6 +382,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -392,9 +396,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readwrite;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SpeechCoach/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Speech Coach";
@@ -421,9 +431,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readwrite;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = YES;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SpeechCoach/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Speech Coach";
@@ -444,20 +460,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		GG0000010000000000000002 /* Build configuration list for PBXProject "SpeechCoach" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				HH0000010000000000000001 /* Debug */,
-				HH0000010000000000000002 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		FF0000010000000000000002 /* Build configuration list for PBXNativeTarget "SpeechCoach" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				HH0000010000000000000003 /* Debug */,
 				HH0000010000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		GG0000010000000000000002 /* Build configuration list for PBXProject "SpeechCoach" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				HH0000010000000000000001 /* Debug */,
+				HH0000010000000000000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
