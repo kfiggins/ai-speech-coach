@@ -62,11 +62,12 @@ struct SessionResultsView: View {
                         .font(.headline)
 
                     if viewModel.isTranscribing {
-                        VStack(spacing: 8) {
+                        VStack(spacing: 12) {
                             ProgressView(value: viewModel.transcriptionProgress)
                             Text("Transcribing... \(Int(viewModel.transcriptionProgress * 100))%")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
+                            SpeakingQuoteView()
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -142,11 +143,12 @@ struct SessionResultsView: View {
                         .font(.headline)
 
                     if viewModel.isAnalyzingCoaching {
-                        VStack(spacing: 8) {
+                        VStack(spacing: 12) {
                             ProgressView()
                             Text("Analyzing your speech...")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
+                            SpeakingQuoteView()
                         }
                         .padding()
                         .frame(maxWidth: .infinity)

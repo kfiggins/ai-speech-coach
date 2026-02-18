@@ -31,6 +31,7 @@
 		AA0000010000000000000020 /* SilenceRemovalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000020 /* SilenceRemovalService.swift */; };
 		AA0000010000000000000021 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000021 /* SettingsView.swift */; };
 		AA0000010000000000000022 /* CoachingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000022 /* CoachingResultsView.swift */; };
+		AA0000010000000000000023 /* SpeakingQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000010000000000000023 /* SpeakingQuoteView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		BB0000010000000000000020 /* SilenceRemovalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilenceRemovalService.swift; sourceTree = "<group>"; };
 		BB0000010000000000000021 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BB0000010000000000000022 /* CoachingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingResultsView.swift; sourceTree = "<group>"; };
+		BB0000010000000000000023 /* SpeakingQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakingQuoteView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				BB0000010000000000000003 /* SessionResultsView.swift */,
 				BB0000010000000000000021 /* SettingsView.swift */,
 				BB0000010000000000000022 /* CoachingResultsView.swift */,
+				BB0000010000000000000023 /* SpeakingQuoteView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				AA0000010000000000000020 /* SilenceRemovalService.swift in Sources */,
 				AA0000010000000000000021 /* SettingsView.swift in Sources */,
 				AA0000010000000000000022 /* CoachingResultsView.swift in Sources */,
+				AA0000010000000000000023 /* SpeakingQuoteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
