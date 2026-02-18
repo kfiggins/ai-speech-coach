@@ -278,6 +278,12 @@ struct SessionListView: View {
 struct SessionListItemView: View {
     let session: Session
 
+    private var formattedDuration: String {
+        let minutes = Int(session.durationSeconds) / 60
+        let seconds = Int(session.durationSeconds) % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
@@ -285,14 +291,24 @@ struct SessionListItemView: View {
                     .font(.subheadline)
                     .fontWeight(.medium)
 
-                if let stats = session.stats {
-                    Text("\(stats.totalWords) words")
+                HStack(spacing: 8) {
+                    Text(formattedDuration)
                         .font(.caption)
                         .foregroundColor(.secondary)
-                } else {
-                    Text("Not transcribed")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+
+                    if let stats = session.stats {
+                        Text("·")
+                            .foregroundColor(.secondary)
+                        Text("\(stats.totalWords) words")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text("·")
+                            .foregroundColor(.secondary)
+                        Text("Not transcribed")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
 

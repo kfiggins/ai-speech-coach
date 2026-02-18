@@ -68,25 +68,10 @@ class SessionResultsViewModel: ObservableObject {
         errorMessage = nil
 
         do {
-            // Step 1: Silence removal
-            transcriptionProgress = 0.1
-            let processedURL = try await silenceRemovalService.removeSilence(
-                from: session.audioFileURL
-            ) { [weak self] progress in
-                Task { @MainActor in
-                    self?.transcriptionProgress = 0.1 + progress * 0.2
-                }
-            }
-
-            // Step 2: Transcribe via OpenAI
+            // Transcribe via OpenAI
             transcriptionProgress = 0.3
             transcriptionService.model = appSettings.transcriptionModel
-            let transcript = try await transcriptionService.transcribe(audioURL: processedURL)
-
-            // Clean up temp file if silence removal created one
-            if processedURL != session.audioFileURL {
-                try? FileManager.default.removeItem(at: processedURL)
-            }
+            let transcript = try await transcriptionService.transcribe(audioURL: session.audioFileURL)
 
             transcriptionProgress = 0.7
 
